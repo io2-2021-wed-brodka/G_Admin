@@ -5,7 +5,7 @@ import { handleError, handleResponse, IApiResponse } from "./ApiUtils"
 const bikes_url = BASE_URL + "bikes/"
 
 export enum BikeState{
-    Working, InService,Blocked,
+    Working,InService,Blocked,
   }
 export  interface Bike{
     ID: number;
