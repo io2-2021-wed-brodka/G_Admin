@@ -71,12 +71,12 @@ const  BikeListPage = () => {
     ) => {
       setSelectedIndex(index);
     };
-  const handleBikeStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setState(Number(event.target.value));
-  };
-  const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setStation(Number(event.target.value));
-  };
+    const handleBikeStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+      setState(Number(event.target.value));
+    };
+    const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
+      setStation(Number(event.target.value));
+    };
     const handleCloseSlidingWindow = () => {
       setOpenSlidingWindow(false);
     };
