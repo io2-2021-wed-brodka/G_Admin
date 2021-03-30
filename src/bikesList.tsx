@@ -56,25 +56,8 @@ import {BikeState,Bike, postBike} from "./Api/bikeApi";
     },
   });
   let bicycles: Bike[] = [];
-  // bicycles.push({ID: 10,State: BikeState.Blocked,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 12,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  // bicycles.push({ID: 11,State: BikeState.Working,StationID: 22});
-  
 
-  
+   
 const  BikeListPage = () => {
     const classes = useStyles();
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
