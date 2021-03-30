@@ -2,7 +2,7 @@ import { Http2ServerResponse } from "http2"
 import { BASE_URL } from "./urls"
 import { handleError, handleResponse, IApiResponse } from "./ApiUtils"
 
-const target_url = BASE_URL + "bikes/"
+const bikes_url = BASE_URL + "bikes/"
 
 export enum BikeState{
     Working, InService,Blocked,
@@ -14,7 +14,7 @@ export  interface Bike{
   }
 
 export const postBike = async (bike: Bike) => {
-    let url = target_url;
+    let url = bikes_url;
     type T = IApiResponse<Http2ServerResponse>;
     return fetch(url,{
         method: "POST",
@@ -27,7 +27,7 @@ export const postBike = async (bike: Bike) => {
 }
 
 export const getBikes = async () => {
-    let url = target_url + "getBikes";
+    let url = bikes_url + "getBikes";
     type T = IApiResponse<Bike[]>;
     return fetch(url, {
         method: "GET",
