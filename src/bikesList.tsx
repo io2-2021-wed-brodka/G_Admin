@@ -178,7 +178,7 @@ const  BikeListPage = () => {
                           <DialogTitle id="alert-dialog-slide-title">{"Delete this group?"}</DialogTitle>
                           <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                              Do you really want you delete this group?
+                              Do you really want you delete this bike?
                               </DialogContentText>
                           </DialogContent>
                           <DialogActions>
