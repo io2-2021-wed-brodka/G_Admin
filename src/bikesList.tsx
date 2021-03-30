@@ -71,7 +71,7 @@ const  BikeListPage = () => {
     ) => {
       setSelectedIndex(index);
     };
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleBikeStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setState(Number(event.target.value));
   };
   const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
@@ -125,7 +125,7 @@ const  BikeListPage = () => {
                             <InputLabel htmlFor="demo-dialog-native">
                               State
                             </InputLabel>
-                            <Select native value={newBikeState} onChange={handleChange} input={<Input />}>
+                            <Select native value={newBikeState} onChange={handleBikeStateChange} input={<Input />}>
                               <option value={0}> Working </option>
                               <option value={1}> In Service </option>
                               <option value={2}> Blocked </option>
