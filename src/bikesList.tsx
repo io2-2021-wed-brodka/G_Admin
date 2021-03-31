@@ -10,8 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import {  stations} from "./stationList";
-import {BikeState,Bike, postBike} from "./Api/bikeApi";
+import { stations } from "./stationList";
+import { BikeState, Bike, postBike, deleteBike } from "./Api/bikeApi";
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       ListSyle: {
@@ -81,8 +81,8 @@ const  BikeListPage = () => {
       setOpenSlidingWindow(false);
     };
     const deleteClicked = () => {
-      const newList = list.filter((item) => item.ID != list[selectedIndex].ID);  
-      setList(newList);
+      deleteBike(selectedIndex).then(r => {
+      });
       setOpenSlidingWindow(false);  
     };
     const handleClickOpen = () => {
@@ -94,7 +94,7 @@ const  BikeListPage = () => {
     };
     const handleAddBike = () => {
       postBike({ID: Math.floor(Math.random() * 100), State: newBikeState, StationID: newBikeStationID}).then(r => {        
-    });
+      });
       setOpen(false);
     };
     return (
