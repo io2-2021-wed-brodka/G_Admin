@@ -37,3 +37,15 @@ export const getBikes = async () => {
         })
     }).then<T>(handleResponse).catch<T>(handleError);
 }
+
+export const deleteBike = async (bikeID: number) => {
+    let url = bikes_url + bikeID;
+    type T = IApiResponse<Http2ServerResponse>;
+    return fetch(url,{
+        method: "DELETE",
+        headers: new Headers({
+            'Accept': 'application/json',
+            "Content-Type": "application/json"
+        })
+    }).then<T>(handleResponse).catch<T>(handleError);
+}
