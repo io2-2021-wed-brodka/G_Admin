@@ -1,3 +1,5 @@
+import { AxiosResponse } from "axios"
+
 export interface IApiResponse<T> {
     isError: boolean;
     errorMessage?: string;
@@ -21,7 +23,22 @@ export const handleResponse = async <T>(response: Response): Promise<IApiRespons
         }
     }
 }
-
+export const axiosHandleResponse = async <T>(response: AxiosResponse): Promise<IApiResponse<T>> => {
+    if (response.status>=200 && response.status<300) {
+        return {
+            isError: false,
+            responseCode: response.status,
+            data: response.status!==204 ? await response.data : null,
+        }
+    }
+    else {
+        return {
+            isError: true,
+            responseCode: response.status,
+            errorMessage: await response.data,
+        }
+    }
+}
 
 export const handleError = async <T>(error: any): Promise<IApiResponse<T>> => {
     return {

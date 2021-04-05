@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme,createMuiTheme ,ThemeProvider} from '@material-ui/core/styles';
 import './App.css';
 import './Layout/topbar.tsx';
@@ -10,8 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import { stations } from "./stationList";
-import { BikeState, Bike, postBike, deleteBike } from "./Api/bikeApi";
+import {  stations} from "./stationList";
+import {BikeState,Bike, postBike, getBikes} from "./Api/bikeApi";
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       ListSyle: {
@@ -56,14 +56,31 @@ import { BikeState, Bike, postBike, deleteBike } from "./Api/bikeApi";
     },
   });
   let bicycles: Bike[] = [];
+  // bicycles.push({id: 10,state: Bikestate.Blocked,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 12,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
+  
 
-   
+  
 const  BikeListPage = () => {
     const classes = useStyles();
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
-    const [newBikeState, setState] = React.useState<number>(0);
-    const [newBikeStationID, setStation] = React.useState<number>(0);
+    const [newBikestate, setstate] = React.useState<number>(0);
+    const [newBikestation, setStation] = React.useState<number>(0);
     const [list, setList] = React.useState<Bike[]>(bicycles);
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
     const handleListItemClick = (
@@ -71,18 +88,18 @@ const  BikeListPage = () => {
     ) => {
       setSelectedIndex(index);
     };
-    const handleBikeStateChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-      setState(Number(event.target.value));
-    };
-    const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
-      setStation(Number(event.target.value));
-    };
+  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setstate(Number(event.target.value));
+  };
+  const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setStation(Number(event.target.value));
+  };
     const handleCloseSlidingWindow = () => {
       setOpenSlidingWindow(false);
     };
     const deleteClicked = () => {
-      deleteBike(selectedIndex).then(r => {
-      });
+      const newList = list.filter((item) => item.id != list[selectedIndex].id);  
+      setList(newList);
       setOpenSlidingWindow(false);  
     };
     const handleClickOpen = () => {
@@ -93,10 +110,24 @@ const  BikeListPage = () => {
       setOpen(false);
     };
     const handleAddBike = () => {
-      postBike({ID: Math.floor(Math.random() * 100), State: newBikeState, StationID: newBikeStationID}).then(r => {        
-      });
+      postBike({id: Math.floor(Math.random() * 100), state: newBikestate, station: newBikestation}).then(r => {        
+    });
       setOpen(false);
     };
+    useEffect(()=>{
+      getBikes().then(r=>{
+        if(r.isError){
+          // alert("Invalid credentials");
+          return;
+        }
+        let list: Bike[]=r.data as Bike[] || [];
+        console.log(r.data);
+        list = list.map(e=>{return {id: e.id, state: e.state, station: e.station}});
+        setList(list);
+        console.log(list);
+      });
+
+    });
     return (
       <div style={{  height: "91vh", display: "flex", flexDirection: "column" }}>  
         <List className={classes.ListSyle} subheader={<li/>}>
@@ -105,13 +136,13 @@ const  BikeListPage = () => {
               <ListSubheader style={{backgroundColor:'#4E4E50',display:'flex',fontWeight:'bold',height:'50px'}}>
                 <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center" style={{width:'90%'}}>
                         <Box p={1} width="1%" >
-                          ID
+                          id
                         </Box>
                         <Box p={1} width="10%">
-                          Bike State
+                          Bike state
                         </Box>
                         <Box p={1} width="7%">
-                          Station ID
+                          Station id
                         </Box>
                       </Box>
                       <Button startIcon={<AddIcon/>} style={{backgroundColor: 'white'}} onClick={handleClickOpen}>  
@@ -121,24 +152,24 @@ const  BikeListPage = () => {
                         <DialogTitle>Fill the form</DialogTitle>
                         <DialogContent>
                         <form className={classes.container}>
-                          <FormControl className={classes.formControl}>   
+                          {/* <FormControl className={classes.formControl}>   
                             <InputLabel htmlFor="demo-dialog-native">
-                              State
+                              state
                             </InputLabel>
-                            <Select native value={newBikeState} onChange={handleBikeStateChange} input={<Input />}>
+                            <Select native value={newBikestate} onChange={handleChange} input={<Input />}>
                               <option value={0}> Working </option>
                               <option value={1}> In Service </option>
                               <option value={2}> Blocked </option>
                             </Select>
-                          </FormControl>
+                          </FormControl> */}
                           <FormControl className={classes.formControl}>   
                             <InputLabel htmlFor="demo-dialog-native">
-                              StationID
+                              station
                             </InputLabel>
-                            <Select native value={newBikeStationID} onChange={handleChangeStation} input={<Input />}>
+                            <Select native value={newBikestation} onChange={handleChangeStation} input={<Input />}>
                               {stations.map((station)=>{
                                 return (
-                                  <option value={station.ID}> {station.ID} </option>
+                                  <option value={station.LocationName}> {station.LocationName} </option>
                                 )
                               })}
                             </Select>
@@ -157,17 +188,17 @@ const  BikeListPage = () => {
               </ListSubheader>
               {list.map((bike,index)=>{
                 return (         
-                    <li key={bike.ID}>
+                    <li key={bike.id}>
                     <ListItem style={{backgroundColor: '#69696e',color:'white',display:'flex'}} onClick={()=>handleListItemClick(index)}>
                       <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center" style={{width:'90%'}}>
                         <Box p={0} width="5%"  >
-                          <ListItemText primary={bike.ID} ></ListItemText>
+                          <ListItemText primary={bike.id} ></ListItemText>
                         </Box>
                         <Box p={0} width="10%">
-                          <ListItemText primary={BikeState[bike.State]}  ></ListItemText>
+                          <ListItemText primary={BikeState[bike.state]}  ></ListItemText>
                         </Box>
                         <Box p={0} width="5%">
-                        <ListItemText primary={bike.StationID} ></ListItemText>
+                        <ListItemText primary={bike.station} ></ListItemText>
                         </Box>
                       </Box>                   
                       <ThemeProvider theme={themeWarning} >
@@ -178,7 +209,7 @@ const  BikeListPage = () => {
                           <DialogTitle id="alert-dialog-slide-title">{"Delete this group?"}</DialogTitle>
                           <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                              Do you really want you delete this bike?
+                              Do you really want you delete this group?
                               </DialogContentText>
                           </DialogContent>
                           <DialogActions>
