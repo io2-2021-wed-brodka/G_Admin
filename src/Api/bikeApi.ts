@@ -17,42 +17,18 @@ export  interface Bike{
 export const postBike = async (bike: Bike) => {
     let url = bikes_url;
     type T = IApiResponse<Http2ServerResponse>;
-    // return fetch(url,{
-    //     method: "POST",
-    //     headers: new Headers({
-    //         'Accept': 'application/json',
-    //         "Content-Type": "application/json",
-    //         "Access-Control-Allow-Origin": "*", 
-    //     }),
-    //     body: JSON.stringify(bike.StationID?.toString())
-    // }).then<T>(handleResponse).catch<T>(handleError);
     axios.post(url,JSON.stringify(bike.station?.toString())).then(r=>axiosHandleResponse(r));
 }
 
 export const getBikes = async () => {
     let url = bikes_url;
     type T = IApiResponse<Bike[]>;
-    // alert("i ma getting bikes");
-    // return fetch(url, {
-    //     method: "GET",
-    //     headers: new Headers({
-    //         'Accept': 'application/json',
-    //         "Content-Type": "application/json", 
-    //         "Access-Control-Allow-Origin": "*",          
-    //     })
-    // }).then<T>(handleResponse).catch<T>(handleError);
     return axios.get(url).then(r=>axiosHandleResponse(r));
 }
 
 export const deleteBike = async (bikeID: number) => {
-    let url = bikes_url + bikeID;
+    let url = bikes_url + bikeID+'/';
     type T = IApiResponse<Http2ServerResponse>;
-    return fetch(url,{
-        method: "DELETE",
-        headers: new Headers({
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        })
-    }).then<T>(handleResponse).catch<T>(handleError);
+  let res =  axios.delete(url).then(r=>axiosHandleResponse(r)).catch(()=>{console.log("error");});
 }
     

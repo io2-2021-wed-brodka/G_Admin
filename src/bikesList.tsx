@@ -11,7 +11,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {  stations} from "./stationList";
-import {BikeState,Bike, postBike, getBikes} from "./Api/bikeApi";
+import {BikeState,Bike, postBike, getBikes, deleteBike} from "./Api/bikeApi";
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       ListSyle: {
@@ -55,26 +55,7 @@ import {BikeState,Bike, postBike, getBikes} from "./Api/bikeApi";
       }
     },
   });
-  let bicycles: Bike[] = [];
-  // bicycles.push({id: 10,state: Bikestate.Blocked,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 12,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  // bicycles.push({id: 11,state: Bikestate.Working,station: 22});
-  
-
-  
+  let bicycles: Bike[] = []; 
 const  BikeListPage = () => {
     const classes = useStyles();
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
@@ -98,8 +79,7 @@ const  BikeListPage = () => {
       setOpenSlidingWindow(false);
     };
     const deleteClicked = () => {
-      const newList = list.filter((item) => item.id != list[selectedIndex].id);  
-      setList(newList);
+      deleteBike(list[selectedIndex].id);
       setOpenSlidingWindow(false);  
     };
     const handleClickOpen = () => {
@@ -117,17 +97,15 @@ const  BikeListPage = () => {
     useEffect(()=>{
       getBikes().then(r=>{
         if(r.isError){
-          // alert("Invalid credentials");
+          alert("Error");
           return;
         }
         let list: Bike[]=r.data as Bike[] || [];
-        console.log(r.data);
         list = list.map(e=>{return {id: e.id, state: e.state, station: e.station}});
         setList(list);
-        console.log(list);
       });
 
-    });
+    },[selectedIndex,openSlidingWindow]);
     return (
       <div style={{  height: "91vh", display: "flex", flexDirection: "column" }}>  
         <List className={classes.ListSyle} subheader={<li/>}>
@@ -152,16 +130,6 @@ const  BikeListPage = () => {
                         <DialogTitle>Fill the form</DialogTitle>
                         <DialogContent>
                         <form className={classes.container}>
-                          {/* <FormControl className={classes.formControl}>   
-                            <InputLabel htmlFor="demo-dialog-native">
-                              state
-                            </InputLabel>
-                            <Select native value={newBikestate} onChange={handleChange} input={<Input />}>
-                              <option value={0}> Working </option>
-                              <option value={1}> In Service </option>
-                              <option value={2}> Blocked </option>
-                            </Select>
-                          </FormControl> */}
                           <FormControl className={classes.formControl}>   
                             <InputLabel htmlFor="demo-dialog-native">
                               station

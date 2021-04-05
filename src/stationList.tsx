@@ -124,15 +124,6 @@ function StationListPage() {
                         <DialogTitle>Fill the form</DialogTitle>
                         <DialogContent>
                         <form className={classes.container}>
-                          {/* <FormControl className={classes.formControl}>   
-                            <InputLabel htmlFor="demo-dialog-native">
-                              State
-                            </InputLabel>
-                            <Select native value={newStationState} onChange={handleChangeState} input={<Input />}>
-                              <option value={0}> In Service </option>
-                              <option value={1}> Blocked </option>
-                            </Select>
-                          </FormControl> */}
                           <FormControl className={classes.formControl}>   
                             <InputLabel htmlFor="demo-dialog-native">
                               Location
