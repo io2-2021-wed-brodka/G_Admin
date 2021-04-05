@@ -10,14 +10,20 @@ export enum BikeState{
   }
 export  interface Bike{
     id: number;
-    state: BikeState;
-    station?: number;
+    status: BikeState;
+    station?: string;
   }
 
 export const postBike = async (bike: Bike) => {
     let url = bikes_url;
     type T = IApiResponse<Http2ServerResponse>;
-    axios.post(url,JSON.stringify(bike.station?.toString())).then(r=>axiosHandleResponse(r));
+    axios({
+      method: 'post',
+      url: url,
+      data: {
+        stationId: bike.station,
+      }
+    });
 }
 
 export const getBikes = async () => {
@@ -29,6 +35,6 @@ export const getBikes = async () => {
 export const deleteBike = async (bikeID: number) => {
     let url = bikes_url + bikeID+'/';
     type T = IApiResponse<Http2ServerResponse>;
-  let res =  axios.delete(url).then(r=>axiosHandleResponse(r)).catch(()=>{console.log("error");});
+    let res =  axios.delete(url).then(r=>axiosHandleResponse(r)).catch(()=>{console.log("error");});
 }
     

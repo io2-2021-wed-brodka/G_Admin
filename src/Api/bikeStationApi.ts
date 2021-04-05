@@ -1,56 +1,43 @@
 import { Http2ServerResponse } from "http2"
 import { BASE_URL } from "./urls"
-import { handleError, handleResponse, IApiResponse } from "./ApiUtils"
+import { axiosHandleResponse, handleError, handleResponse, IApiResponse } from "./ApiUtils"
 import { Bike } from "./bikeApi"
+import axios from "axios";
 
-const target_url = BASE_URL + "stations/"
-
+const target_url = BASE_URL + "stations/";
+const station_url = BASE_URL + "stations/";
 export enum BikeStationState{
     Working,Blocked,
   }
   export  interface BikeStation{
-    ID: number;
-    State: BikeStationState;
-    LocationName: string;
-    Bikes: Bike[];
+    id: number;
+    state: BikeStationState;
+    name: string;
+    bikes: Bike[];
 }
 
 export const postBikeStations = async (station: BikeStation) => {
-    let url = target_url;
+    let url = station_url;
     type T = IApiResponse<Http2ServerResponse>;
-    return fetch(url,{
-        method: "POST",
-        headers: new Headers({
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(station.LocationName)
-    }).then<T>(handleResponse).catch<T>(handleError);
+    axios({
+        method: 'post',
+        url: url,
+        data: {
+            name: station.name,
+        }
+      });
 }
 
 export const getBikeStations = async () => {
-    let url = target_url + "getStations";
+    let url = station_url;
     type T = IApiResponse<Bike[]>;
-    return fetch(url, {
-        method: "GET",
-        headers: new Headers({
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        })
-    }).then<T>(handleResponse).catch<T>(handleError);
+    return axios.get(url).then(r=>axiosHandleResponse(r));
 }
 
 export const deleteBikeStation = async(stationID: string) =>
 {
-    let url = target_url+"deleteGroup";
+    let url = station_url + stationID+'/';
     type T = IApiResponse<Http2ServerResponse>;
-    return fetch(url ,{
-        method: "DELETE",
-        headers: new Headers({
-            'Accept': 'application/json',
-            "Content-Type": "application/json"
-        }),
-        body: JSON.stringify(stationID)
-    }).then<T>(handleResponse).catch<T>(handleError);
+    let res =  axios.delete(url).then(r=>axiosHandleResponse(r)).catch(()=>{console.log("error");});
 }
   

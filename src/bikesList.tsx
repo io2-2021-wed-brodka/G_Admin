@@ -10,8 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import {  stations} from "./stationList";
 import {BikeState,Bike, postBike, getBikes, deleteBike} from "./Api/bikeApi";
+import { BikeStation,getBikeStations } from "./Api/bikeStationApi";
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       ListSyle: {
@@ -61,9 +61,11 @@ const  BikeListPage = () => {
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
     const [open, setOpen] = useState<boolean>(false);
     const [newBikestate, setstate] = React.useState<number>(0);
-    const [newBikestation, setStation] = React.useState<number>(0);
+    const [newBikestation, setStation] = React.useState<string>("0");
     const [list, setList] = React.useState<Bike[]>(bicycles);
+    const [listStation, setListStation] = React.useState<BikeStation[]>([]);
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
+    const [getBikesTriger, setBikesTriger] = React.useState(true);
     const handleListItemClick = (
       index: number,
     ) => {
@@ -73,14 +75,15 @@ const  BikeListPage = () => {
     setstate(Number(event.target.value));
   };
   const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setStation(Number(event.target.value));
+    setStation(String(event.target.value));
   };
     const handleCloseSlidingWindow = () => {
       setOpenSlidingWindow(false);
     };
     const deleteClicked = () => {
       deleteBike(list[selectedIndex].id);
-      setOpenSlidingWindow(false);  
+      setOpenSlidingWindow(false); 
+      setBikesTriger(!getBikesTriger); 
     };
     const handleClickOpen = () => {
       setOpen(true);
@@ -90,22 +93,31 @@ const  BikeListPage = () => {
       setOpen(false);
     };
     const handleAddBike = () => {
-      postBike({id: Math.floor(Math.random() * 100), state: newBikestate, station: newBikestation}).then(r => {        
+      postBike({id: 0, status: newBikestate, station: newBikestation}).then(r => {        
     });
       setOpen(false);
+      setBikesTriger(!getBikesTriger);
     };
-    useEffect(()=>{
-      getBikes().then(r=>{
+     useEffect(()=>{
+       getBikes().then(r=>{
         if(r.isError){
           alert("Error");
           return;
         }
         let list: Bike[]=r.data as Bike[] || [];
-        list = list.map(e=>{return {id: e.id, state: e.state, station: e.station}});
+        list = list.map(e=>{return {id: e.id, status: BikeState.InService, station: e.station}});
         setList(list);
       });
-
-    },[selectedIndex,openSlidingWindow]);
+      getBikeStations().then(r=>{
+        if(r.isError){
+          alert("Error");
+          return;
+        }
+        let listStation: BikeStation[]=r.data as BikeStation[] || [];
+        listStation = listStation.map(e=>{return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}});
+        setListStation(listStation);
+      });
+    },[getBikesTriger]);
     return (
       <div style={{  height: "91vh", display: "flex", flexDirection: "column" }}>  
         <List className={classes.ListSyle} subheader={<li/>}>
@@ -135,9 +147,9 @@ const  BikeListPage = () => {
                               station
                             </InputLabel>
                             <Select native value={newBikestation} onChange={handleChangeStation} input={<Input />}>
-                              {stations.map((station)=>{
+                              {listStation.map((station)=>{
                                 return (
-                                  <option value={station.LocationName}> {station.LocationName} </option>
+                                  <option value={station.id}> {station.name} </option>
                                 )
                               })}
                             </Select>
@@ -154,6 +166,9 @@ const  BikeListPage = () => {
                       </DialogActions>
                       </Dialog>  
               </ListSubheader>
+              {/* {list.map((bike,index)=>{
+                return 
+              })} */}
               {list.map((bike,index)=>{
                 return (         
                     <li key={bike.id}>
@@ -163,21 +178,21 @@ const  BikeListPage = () => {
                           <ListItemText primary={bike.id} ></ListItemText>
                         </Box>
                         <Box p={0} width="10%">
-                          <ListItemText primary={BikeState[bike.state]}  ></ListItemText>
+                          <ListItemText primary={BikeState[bike.status]}  ></ListItemText>
                         </Box>
                         <Box p={0} width="5%">
-                        <ListItemText primary={bike.station} ></ListItemText>
+                          <ListItemText primary={bike.station==null? "unsigned":"bike.station"} ></ListItemText>
                         </Box>
                       </Box>                   
                       <ThemeProvider theme={themeWarning} >
-                        <Button className={classes.deleteButton} id="delete_group_button" onClick={() => setOpenSlidingWindow(true)}> DELETE</Button>
+                        <Button className={classes.deleteButton} id="delete_bike_button" onClick={() => setOpenSlidingWindow(true)}> DELETE</Button>
                         <Dialog open={openSlidingWindow} 
                         keepMounted
                         onClose={handleCloseSlidingWindow}>
-                          <DialogTitle id="alert-dialog-slide-title">{"Delete this group?"}</DialogTitle>
+                          <DialogTitle id="alert-dialog-slide-title">{"Delete this bike?"}</DialogTitle>
                           <DialogContent>
                             <DialogContentText id="alert-dialog-slide-description">
-                              Do you really want you delete this group?
+                              Do you really want you delete this bike?
                               </DialogContentText>
                           </DialogContent>
                           <DialogActions>

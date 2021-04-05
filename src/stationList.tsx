@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme,createMuiTheme ,ThemeProvider} from '@material-ui/core/styles';
 import './App.css';
 import './Layout/topbar.tsx';
@@ -11,7 +11,7 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import { BikeStation, BikeStationState } from "./Api/bikeStationApi";
+import { BikeStation, BikeStationState, deleteBikeStation, getBikeStations, postBikeStations } from "./Api/bikeStationApi";
 
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -53,14 +53,6 @@ import { BikeStation, BikeStationState } from "./Api/bikeStationApi";
     },
   });
   export let stations: BikeStation[] = [];
-   let bicyclesInStation: Bike[] = [];
-   bicyclesInStation.push({id: 10,state: 1, station: 22});
-   bicyclesInStation.push({id: 10,state: 1, station: 22});
-   bicyclesInStation.push({id: 10,state: 1, station: 22});
-  bicyclesInStation.push({id: 10,state: BikeState.Blocked,station: 22});
-  bicyclesInStation.push({id: 10,state: BikeState.Blocked,station: 22});
-  stations.push({ID:1,State: BikeStationState.Working,LocationName: 'Warszawa Ksiecia Janusza 39',Bikes: bicyclesInStation})
-  stations.push({ID:2,State: BikeStationState.Blocked,LocationName: 'Niu Jork Ajfel tałer',Bikes: bicyclesInStation})
 function StationListPage() {
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
@@ -69,6 +61,7 @@ function StationListPage() {
     const [list, setList] = React.useState<BikeStation[]>(stations);
     const [selectedIndex, setSelectedIndex] = React.useState(0  );
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
+    const [getStationTriger, setStationTriger] = React.useState(true);
     const handleClickOpen = () => {
       setOpen(true);
     };
@@ -79,18 +72,18 @@ function StationListPage() {
       setState(Number(event.target.value));
     };
     const handleAddStation = () => {
-      list.push({ID:Math.floor(Math.random() * 100),State: newStationState,LocationName: newStationLocation,Bikes: []})
-    //   postBike({ID: Math.floor(Math.random() * 100), State: newBikeState, StationID: newBikeStationID}).then(r => {        
-    // });
-      setOpen(false);
+      postBikeStations({id:Math.floor(Math.random() * 100),state: newStationState,name: newStationLocation,bikes: []}).then(r => {        
+      });
+        setOpen(false);
+        setStationTriger(!getStationTriger);
      };
     const handleChangeLocation = (location: string) =>{
       setLocation(location);
     };
     const deleteClicked = () => {
-      const newList = list.filter((item) => item.ID != list[selectedIndex].ID);  
-      setList(newList);
-      setOpenSlidingWindow(false);  
+      deleteBikeStation(list[selectedIndex].id.toString());
+      setOpenSlidingWindow(false); 
+      setStationTriger(!getStationTriger); 
     };
     const handleCloseSlidingWindow = () => {
       setOpenSlidingWindow(false);
@@ -100,6 +93,17 @@ function StationListPage() {
     ) => {
       setSelectedIndex(index);
     };
+    useEffect(()=>{
+      getBikeStations().then(r=>{
+       if(r.isError){
+         alert("Error");
+         return;
+       }
+       let list: BikeStation[]=r.data as BikeStation[] || [];
+       list = list.map(e=>{return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}});
+       setList(list);
+     });
+    },[getStationTriger]);
     return (
       <div className="App" style={{ height: "91vh", display: "flex", flexDirection: "column" }}>  
         <List className={classes.ListSyle} subheader={<li/>} >
@@ -144,17 +148,17 @@ function StationListPage() {
               </ListSubheader>
               {list.map((station,index)=>{
                 return (         
-                    <div key={station.ID}>
+                    <div key={station.id}>
                     <ListItem style={{backgroundColor: '#69696e',color:'white',display:'flex'}} onClick={()=>handleListItemClick(index)}>
                       <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center" style={{width:'90%'}}>
                         <Box p={0} width="5%"  >
-                          <ListItemText primary={station.ID} ></ListItemText>
+                          <ListItemText primary={station.id} ></ListItemText>
                         </Box>
                         <Box p={0} width="10%">
-                          <ListItemText primary={BikeState[station.State]}  ></ListItemText>
+                          <ListItemText primary={station.state}  ></ListItemText>
                         </Box>
                         <Box p={0} >
-                        <ListItemText primary={station.LocationName} ></ListItemText>
+                        <ListItemText primary={station.name} ></ListItemText>
                         </Box>
                       </Box>                   
                       <ThemeProvider theme={themeWarning} >
@@ -180,13 +184,13 @@ function StationListPage() {
                      
                       </ThemeProvider>                 
                   </ListItem>
-                  {station.Bikes.map((bike,index)=>{
+                  {/* {station.bikes.map((bike,index)=>{
                     return (
                       <ListItem style={{backgroundColor: '#69696e',color:'white',display:'flex'}}>
                         Bike State:{bike.state} Bike ID: {bike.id}                 
                      </ListItem>                    
                     )                   
-                  })}
+                  })} */}
                   <Divider style={{backgroundColor:'#1A1A1D',height:'2px'}}/>
                     </div>
                 );
