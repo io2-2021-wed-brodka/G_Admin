@@ -9,19 +9,19 @@ export enum BikeState{
     Working,InService,Blocked,
   }
 export  interface Bike{
-    id: number;
+    id: string;
     status: BikeState;
     station?: string;
   }
 
-export const postBike = async (bike: Bike) => {
+export const postBike = async (station: string) => {
     let url = bikes_url;
     type T = IApiResponse<Http2ServerResponse>;
     axios({
       method: 'post',
       url: url,
       data: {
-        stationId: bike.station,
+        stationId: station,
       }
     });
 }
@@ -32,7 +32,7 @@ export const getBikes = async () => {
     return axios.get(url).then(r=>axiosHandleResponse(r));
 }
 
-export const deleteBike = async (bikeID: number) => {
+export const deleteBike = async (bikeID: string) => {
     let url = bikes_url + bikeID+'/';
     type T = IApiResponse<Http2ServerResponse>;
     let res =  axios.delete(url).then(r=>axiosHandleResponse(r)).catch(()=>{console.log("error");});

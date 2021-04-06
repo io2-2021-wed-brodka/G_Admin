@@ -72,7 +72,7 @@ function StationListPage() {
       setState(Number(event.target.value));
     };
     const handleAddStation = () => {
-      postBikeStations({id:Math.floor(Math.random() * 100),state: newStationState,name: newStationLocation,bikes: []}).then(r => {        
+      postBikeStations(newStationLocation).then(r => {        
       });
         setOpen(false);
         setStationTriger(!getStationTriger);

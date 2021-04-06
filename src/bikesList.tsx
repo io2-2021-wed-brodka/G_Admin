@@ -93,7 +93,7 @@ const  BikeListPage = () => {
       setOpen(false);
     };
     const handleAddBike = () => {
-      postBike({id: 0, status: newBikestate, station: newBikestation}).then(r => {        
+      postBike(newBikestation).then(r => {        
     });
       setOpen(false);
       setBikesTriger(!getBikesTriger);

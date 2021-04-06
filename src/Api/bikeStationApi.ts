@@ -4,26 +4,26 @@ import { axiosHandleResponse, handleError, handleResponse, IApiResponse } from "
 import { Bike } from "./bikeApi"
 import axios from "axios";
 
-const target_url = BASE_URL + "stations/";
 const station_url = BASE_URL + "stations/";
+
 export enum BikeStationState{
     Working,Blocked,
   }
   export  interface BikeStation{
-    id: number;
+    id: string;
     state: BikeStationState;
     name: string;
     bikes: Bike[];
 }
 
-export const postBikeStations = async (station: BikeStation) => {
+export const postBikeStations = async (stationName: string) => {
     let url = station_url;
     type T = IApiResponse<Http2ServerResponse>;
     axios({
         method: 'post',
         url: url,
         data: {
-            name: station.name,
+            name: stationName,
         }
       });
 }
