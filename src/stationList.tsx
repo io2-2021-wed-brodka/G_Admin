@@ -20,7 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import {BikeStation, deleteBikeStation, getBikeStations, postBikeStations} from "./Api/bikeStationApi";
+import {BikeStation, deleteBikeStation, getStations, postStation} from "./Api/bikeStationApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -67,11 +67,11 @@ function StationListPage() {
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
     const [newStationState, setState] = React.useState<number>(0);
-    const [newStationLocation, setLocation] = React.useState<string>("Warsaw");
+    const [newStationName, setName] = React.useState<string>("Generic Location");
     const [list, setList] = React.useState<BikeStation[]>(stations);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
-    const [getStationTriger, setStationTriger] = React.useState(true);
+    const [getStationTrigger, setStationTrigger] = React.useState(true);
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -82,18 +82,18 @@ function StationListPage() {
         setState(Number(event.target.value));
     };
     const handleAddStation = () => {
-        postBikeStations(newStationLocation).then(r => {
+        postStation(newStationName).then(r => {
         });
         setOpen(false);
-        setStationTriger(!getStationTriger);
+        setStationTrigger(!getStationTrigger);
     };
-    const handleChangeLocation = (location: string) => {
-        setLocation(location);
+    const handleChangeName = (location: string) => {
+        setName(location);
     };
     const deleteClicked = () => {
         deleteBikeStation(list[selectedIndex].id.toString());
         setOpenSlidingWindow(false);
-        setStationTriger(!getStationTriger);
+        setStationTrigger(!getStationTrigger);
     };
     const handleCloseSlidingWindow = () => {
         setOpenSlidingWindow(false);
@@ -104,7 +104,7 @@ function StationListPage() {
         setSelectedIndex(index);
     };
     useEffect(() => {
-        getBikeStations().then(r => {
+        getStations().then(r => {
             if (r.isError) {
                 alert("Error");
                 return;
@@ -115,7 +115,7 @@ function StationListPage() {
             });
             setList(list);
         });
-    }, [getStationTriger]);
+    }, [getStationTrigger]);
     return (
         <div className="App" style={{height: "91vh", display: "flex", flexDirection: "column"}}>
             <List className={classes.ListSyle} subheader={<li/>}>
@@ -125,14 +125,11 @@ function StationListPage() {
                             style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold', height: '50px'}}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={1} width="1%">
-                                    ID
+                                <Box p={1} width="10%">
+                                    State
                                 </Box>
                                 <Box p={1} width="10%">
-                                    Bike State
-                                </Box>
-                                <Box p={1} width="10%">
-                                    Station Location
+                                    Name
                                 </Box>
                             </Box>
                             <Button startIcon={<AddIcon/>} style={{backgroundColor: 'white'}} onClick={handleClickOpen}>
@@ -144,9 +141,9 @@ function StationListPage() {
                                     <form className={classes.container}>
                                         <FormControl className={classes.formControl}>
                                             <InputLabel htmlFor="demo-dialog-native">
-                                                Location
+                                                Name
                                             </InputLabel>
-                                            <Input onChange={(event: any) => handleChangeLocation(event.target.value)}/>
+                                            <Input onChange={(event: any) => handleChangeName(event.target.value)}/>
                                         </FormControl>
                                     </form>
                                 </DialogContent>
@@ -167,13 +164,10 @@ function StationListPage() {
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
-                                            <Box p={0} width="5%">
-                                                <ListItemText primary={station.id}></ListItemText>
-                                            </Box>
-                                            <Box p={0} width="10%">
+                                            <Box p={0} width="20%">
                                                 <ListItemText primary={station.state}></ListItemText>
                                             </Box>
-                                            <Box p={0}>
+                                            <Box p={0} width="20%">
                                                 <ListItemText primary={station.name}></ListItemText>
                                             </Box>
                                         </Box>

@@ -22,7 +22,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
-import {BikeStation, getBikeStations} from "./Api/bikeStationApi";
+import {BikeStation, getStations} from "./Api/bikeStationApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -119,7 +119,7 @@ const BikeListPage = () => {
             });
             setBikeList(list);
         });
-        getBikeStations().then(r => {
+        getStations().then(r => {
             if (r.isError) {
                 alert("Error");
                 return;
@@ -140,14 +140,11 @@ const BikeListPage = () => {
                             style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold', height: '50px'}}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={1} width="1%">
-                                    id
+                                <Box p={1} width="20%">
+                                    State
                                 </Box>
-                                <Box p={1} width="10%">
-                                    Bike state
-                                </Box>
-                                <Box p={1} width="7%">
-                                    Station id
+                                <Box p={1} width="20%">
+                                    Station
                                 </Box>
                             </Box>
                             <Button startIcon={<AddIcon/>} style={{backgroundColor: 'white'}} onClick={handleClickOpen}>
@@ -189,15 +186,12 @@ const BikeListPage = () => {
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
-                                            <Box p={0} width="5%">
-                                                <ListItemText primary={bike.id}></ListItemText>
-                                            </Box>
-                                            <Box p={0} width="10%">
+                                            <Box p={0} width="20%">
                                                 <ListItemText primary={BikeState[bike.status]}></ListItemText>
                                             </Box>
-                                            <Box p={0} width="5%">
+                                            <Box p={0} width="20%">
                                                 <ListItemText
-                                                    primary={bike.station == null ? "unsigned" : "bike.station"}></ListItemText>
+                                                    primary={bike.station == null ? "" : bike.station.name}></ListItemText>
                                             </Box>
                                         </Box>
                                         <ThemeProvider theme={themeWarning}>

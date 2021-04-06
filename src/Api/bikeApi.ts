@@ -1,9 +1,8 @@
-import {Http2ServerResponse} from "http2"
 import {BASE_URL} from "./urls"
-import {axiosHandleResponse, IApiResponse} from "./ApiUtils"
+import {axiosHandleResponse} from "./ApiUtils"
 import axios from "axios"
 
-const bikes_url = BASE_URL + "bikes/"
+const bikes_url = BASE_URL + "bikes/";
 
 export enum BikeState {
     Working, InService, Blocked,
@@ -19,11 +18,9 @@ export interface Bike {
 }
 
 export const postBike = async (station: string) => {
-    let url = bikes_url;
-    type T = IApiResponse<Http2ServerResponse>;
     axios({
         method: 'post',
-        url: url,
+        url: bikes_url,
         data: {
             stationId: station,
         }
@@ -35,10 +32,9 @@ export const getBikes = async () => {
 }
 
 export const deleteBike = async (bikeID: string) => {
-    let url = bikes_url + bikeID + '/';
-    type T = IApiResponse<Http2ServerResponse>;
-    let res = axios.delete(url).then(r => axiosHandleResponse(r)).catch(() => {
-        console.log("error");
+    let delete_url = bikes_url + bikeID + '/';
+    axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
+        console.log("Error in deleteBike api call");
     });
 }
     

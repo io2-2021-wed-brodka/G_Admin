@@ -1,6 +1,5 @@
-import {Http2ServerResponse} from "http2"
 import {BASE_URL} from "./urls"
-import {axiosHandleResponse, IApiResponse} from "./ApiUtils"
+import {axiosHandleResponse} from "./ApiUtils"
 import {Bike} from "./bikeApi"
 import axios from "axios";
 
@@ -17,28 +16,23 @@ export interface BikeStation {
     bikes: Bike[];
 }
 
-export const postBikeStations = async (stationName: string) => {
-    let url = station_url;
-    type T = IApiResponse<Http2ServerResponse>;
+export const postStation = async (stationName: string) => {
     axios({
         method: 'post',
-        url: url,
+        url: station_url,
         data: {
             name: stationName,
         }
     });
 }
 
-export const getBikeStations = async () => {
-    let url = station_url;
-    type T = IApiResponse<Bike[]>;
-    return axios.get(url).then(r => axiosHandleResponse(r));
+export const getStations = async () => {
+    return axios.get(station_url).then(r => axiosHandleResponse(r));
 }
 
 export const deleteBikeStation = async (stationID: string) => {
     let url = station_url + stationID + '/';
-    type T = IApiResponse<Http2ServerResponse>;
-    let res = axios.delete(url).then(r => axiosHandleResponse(r)).catch(() => {
+    axios.delete(url).then(r => axiosHandleResponse(r)).catch(() => {
         console.log("error");
     });
 }
