@@ -166,9 +166,6 @@ const  BikeListPage = () => {
                       </DialogActions>
                       </Dialog>  
               </ListSubheader>
-              {/* {list.map((bike,index)=>{
-                return 
-              })} */}
               {list.map((bike,index)=>{
                 return (         
                     <li key={bike.id}>

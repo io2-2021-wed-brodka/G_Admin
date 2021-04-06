@@ -184,13 +184,6 @@ function StationListPage() {
                      
                       </ThemeProvider>                 
                   </ListItem>
-                  {/* {station.bikes.map((bike,index)=>{
-                    return (
-                      <ListItem style={{backgroundColor: '#69696e',color:'white',display:'flex'}}>
-                        Bike State:{bike.state} Bike ID: {bike.id}                 
-                     </ListItem>                    
-                    )                   
-                  })} */}
                   <Divider style={{backgroundColor:'#1A1A1D',height:'2px'}}/>
                     </div>
                 );
