@@ -22,11 +22,11 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
-import {Station, getStations} from "./Api/bikeStationApi";
+import {getStations, Station} from "./Api/bikeStationApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        ListSyle: {
+        ListStyle: {
             overflowY: 'scroll',
         },
         ListFont: {
@@ -133,7 +133,7 @@ const BikeListPage = () => {
     }, [getBikesTrigger]);
     return (
         <div style={{height: "91vh", display: "flex", flexDirection: "column"}}>
-            <List className={classes.ListSyle} subheader={<li/>}>
+            <List className={classes.ListStyle} subheader={<li/>}>
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader

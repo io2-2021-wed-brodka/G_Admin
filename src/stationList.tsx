@@ -20,11 +20,11 @@ import AddIcon from '@material-ui/icons/Add';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import {Station, blockBikeStation, deleteBikeStation, getStations, postStation} from "./Api/bikeStationApi";
+import {blockBikeStation, deleteBikeStation, getStations, postStation, Station} from "./Api/bikeStationApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        ListSyle: {
+        ListStyle: {
             overflowY: 'scroll',
         },
         ListFont: {
@@ -127,7 +127,7 @@ function StationListPage() {
     }, [getStationTrigger]);
     return (
         <div className="App" style={{height: "91vh", display: "flex", flexDirection: "column"}}>
-            <List className={classes.ListSyle} subheader={<li/>}>
+            <List className={classes.ListStyle} subheader={<li/>}>
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader
