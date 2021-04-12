@@ -22,7 +22,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
-import {BikeStation, getStations} from "./Api/bikeStationApi";
+import {Station, getStations} from "./Api/bikeStationApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -75,7 +75,7 @@ const BikeListPage = () => {
     const [newBikeState, setState] = React.useState<number>(0);
     const [newBikeStation, setStation] = React.useState<string>("0");
     const [bikeList, setBikeList] = React.useState<Bike[]>(bicycles);
-    const [stationList, setStationList] = React.useState<BikeStation[]>([]);
+    const [stationList, setStationList] = React.useState<Station[]>([]);
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
     const [getBikesTrigger, setBikesTrigger] = React.useState(true);
     const handleListItemClick = (
@@ -124,7 +124,7 @@ const BikeListPage = () => {
                 alert("Error");
                 return;
             }
-            let listStation: BikeStation[] = r.data as BikeStation[] || [];
+            let listStation: Station[] = r.data as Station[] || [];
             listStation = listStation.map(e => {
                 return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}
             });
