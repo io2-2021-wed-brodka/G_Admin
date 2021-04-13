@@ -132,7 +132,6 @@ const BikeListPage = () => {
             list = list.map(e => {
                 return {id: e.id, status: BikeState.InService, station: e.station}
             });
-            console.log(list);
             setBikeList(list);
         });
         getStations().then(r => {
