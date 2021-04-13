@@ -4,6 +4,7 @@ import './Layout/topbar.tsx';
 import {TopBar} from './Layout/topbar';
 import BikeListPage from './bikesList';
 import StationListPage from './stationList';
+import LoginPage from './login';
 
 export default function App() {
     return (
@@ -17,6 +18,9 @@ export default function App() {
                         </Route>
                         <Route path="/stations">
                             <StationListPage/>
+                        </Route>
+                        <Route path="/login">
+                            <LoginPage/>
                         </Route>
                     </Switch>
                 </div>

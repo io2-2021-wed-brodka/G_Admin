@@ -23,11 +23,15 @@ export const postStation = async (stationName: string) => {
         data: {
             name: stationName,
         }
+    }).then(r => axiosHandleResponse(r)).catch(err => {
+        console.log(err);
     });
 }
 
 export const getStations = async () => {
-    return axios.get(station_url).then(r => axiosHandleResponse(r));
+    return axios.get(station_url)
+    .then(r => axiosHandleResponse(r))
+    .catch(() => console.log("error"));
 }
 
 export const deleteBikeStation = async (stationID: string) => {
