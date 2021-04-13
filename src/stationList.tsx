@@ -21,11 +21,16 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
 import {blockBikeStation, deleteBikeStation, getStations, postStation, Station} from "./Api/bikeStationApi";
-
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         ListStyle: {
-            overflowY: 'scroll',
+            overflowY: 'auto',
+            opacity: '0.92',
+            marginLeft: '10%',
+            marginRight: '10%',
+            marginTop: '2%',
         },
         ListFont: {
             color: 'white'
@@ -44,6 +49,16 @@ const useStyles = makeStyles((theme: Theme) =>
         container: {
             display: 'flex',
             flexWrap: 'wrap',
+        },
+        deleteButton: {
+            backgroundColor: '#D11A2A',
+            variant: 'contained',
+            margin: '5px'
+        },
+        blockButton: {
+            backgroundColor: '#f2e20e',
+            variant: 'contained',
+            margin: '5px'
         },
     }),
 );
@@ -131,18 +146,16 @@ function StationListPage() {
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader
-                            style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold', height: '50px'}}>
+                            style={{ backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
+                                    height: '50px', borderRadius: '15px'}}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={1} width="10%">
-                                    State
-                                </Box>
-                                <Box p={1} width="10%">
+                                <Box p={0} m={1} >
                                     Name
                                 </Box>
                             </Box>
-                            <Button startIcon={<AddIcon/>} style={{backgroundColor: 'white'}} onClick={handleClickOpen}>
-                                Add new station
+                            <Button startIcon={<AddIcon/>} variant="contained"  style={{margin: '5px'}} onClick={handleClickOpen}>
+                                 new station
                             </Button>
                             <Dialog disableBackdropClick open={open} onClose={handleClose}>
                                 <DialogTitle>Fill the form</DialogTitle>
@@ -169,22 +182,22 @@ function StationListPage() {
                         {list.map((station, index) => {
                             return (
                                 <div key={station.id}>
-                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex'}}
+                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex', 
+                                                    height: '50px', marginBottom: '5px',  marginTop: '5px', borderRadius: '15px'}}
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
-                                             style={{width: '90%'}}>
-                                            <Box p={0} width="20%">
-                                                <ListItemText primary={station.state}></ListItemText>
-                                            </Box>
-                                            <Box p={0} width="20%">
+                                             style={{width: '90%'}}>                                          
+                                            <Box p={0} m={1}>
                                                 <ListItemText primary={station.name}></ListItemText>
                                             </Box>
                                         </Box>
                                         <ThemeProvider theme={themeWarning}>
-                                            <Button variant="contained" color="primary"
-                                                    onClick={() => setBlockConfirmPopUp(true)}> BLOCK</Button>
-                                            <Button variant="contained" color="primary"
-                                                    onClick={() => setDeleteConfirmPopUp(true)}> DELETE</Button>
+                                            <Button variant="contained" color="primary" className={classes.blockButton}
+                                                    onClick={() => setBlockConfirmPopUp(true)} 
+                                                    startIcon={<ErrorOutlineIcon/>}> BLOCK</Button>
+                                            <Button variant="contained" color="primary" className={classes.deleteButton}
+                                                    onClick={() => setDeleteConfirmPopUp(true)}
+                                                    startIcon={<DeleteOutlineSharpIcon/>}> DELETE</Button>
                                             <Dialog open={openBlockConfirmPopUp}
                                                     keepMounted
                                                     onClose={handleCloseBlockConfirmPopUp}>
@@ -223,10 +236,8 @@ function StationListPage() {
                                                     </Button>
                                                 </DialogActions>
                                             </Dialog>
-
                                         </ThemeProvider>
                                     </ListItem>
-                                    <Divider style={{backgroundColor: '#1A1A1D', height: '2px'}}/>
                                 </div>
                             );
                         })}
