@@ -37,7 +37,6 @@ export const deleteBike = async (bikeID: string) => {
     let res =  await axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
         console.log("Error in deleteBike api call");
     });
-    console.log("deleted bike response",    res);
     await delay(10000);
 }
     
