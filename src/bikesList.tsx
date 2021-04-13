@@ -22,12 +22,18 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
-import {BikeStation, getStations} from "./Api/bikeStationApi";
+import {getStations, Station} from "./Api/bikeStationApi";
+import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        ListSyle: {
-            overflowY: 'scroll',
+        ListStyle: {
+            overflowY: 'auto',
+            opacity: '0.92',
+            marginLeft: '10%',
+            marginRight: '10%',
+            marginTop: '2%',
+            marginBottom: '2%',
         },
         ListFont: {
             color: 'white'
@@ -40,8 +46,9 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: 0,
         },
         deleteButton: {
-            backgroundColor: '#950740',
-            variant: 'contained'
+            backgroundColor: '#D11A2A ',
+            variant: 'contained',
+            margin: '5px'
         },
         container: {
             display: 'flex',
@@ -51,6 +58,11 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: theme.spacing(1),
             minWidth: 120,
         },
+        generalContainer:{  
+         height: '91vh',
+         display: 'flex',
+         flexDirection: 'column'
+        }
     }),
 );
 const themeWarning = createMuiTheme({
@@ -75,7 +87,7 @@ const BikeListPage = () => {
     const [newBikeState, setState] = React.useState<number>(0);
     const [newBikeStation, setStation] = React.useState<string>("0");
     const [bikeList, setBikeList] = React.useState<Bike[]>(bicycles);
-    const [stationList, setStationList] = React.useState<BikeStation[]>([]);
+    const [stationList, setStationList] = React.useState<Station[]>([]);
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
     const [getBikesTrigger, setBikesTrigger] = React.useState(true);
     const handleListItemClick = (
@@ -124,7 +136,7 @@ const BikeListPage = () => {
                 alert("Error");
                 return;
             }
-            let listStation: BikeStation[] = r.data as BikeStation[] || [];
+            let listStation: Station[] = r.data as Station[] || [];
             listStation = listStation.map(e => {
                 return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}
             });
@@ -132,23 +144,24 @@ const BikeListPage = () => {
         });
     }, [getBikesTrigger]);
     return (
-        <div style={{height: "91vh", display: "flex", flexDirection: "column"}}>
-            <List className={classes.ListSyle} subheader={<li/>}>
+        <div className={classes.generalContainer}>
+            <List className={classes.ListStyle} subheader={<li/>}>
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader
-                            style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold', height: '50px'}}>
+                            style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
+                                    height: '50px', borderRadius: '15px'}}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={1} width="20%">
+                                <Box p={1} m={1} >
                                     State
                                 </Box>
-                                <Box p={1} width="20%">
+                                <Box p={1} m={1} style={{marginLeft:'6%'}}>
                                     Station
                                 </Box>
                             </Box>
-                            <Button startIcon={<AddIcon/>} style={{backgroundColor: 'white'}} onClick={handleClickOpen}>
-                                Add new bike
+                            <Button startIcon={<AddIcon/>} variant="contained"  style={{margin: '5px'}} onClick={handleClickOpen}>
+                                NEW BIKE
                             </Button>
                             <Dialog disableBackdropClick open={open} onClose={handleClose}>
                                 <DialogTitle>Fill the form</DialogTitle>
@@ -182,20 +195,21 @@ const BikeListPage = () => {
                         {bikeList.map((bike, index) => {
                             return (
                                 <li key={bike.id}>
-                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex'}}
+                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex', 
+                                                    height: '50px', marginBottom: '5px',  marginTop: '5px', borderRadius: '15px'}}
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
-                                            <Box p={0} width="20%">
+                                            <Box p={2} m={1}  >
                                                 <ListItemText primary={BikeState[bike.status]}></ListItemText>
                                             </Box>
-                                            <Box p={0} width="20%">
+                                            <Box p={2} m={1}>
                                                 <ListItemText
                                                     primary={bike.station == null ? "" : bike.station.name}></ListItemText>
                                             </Box>
                                         </Box>
                                         <ThemeProvider theme={themeWarning}>
-                                            <Button className={classes.deleteButton} id="delete_bike_button"
+                                            <Button className={classes.deleteButton} id="delete_bike_button" startIcon={<DeleteOutlineSharpIcon/>}
                                                     onClick={() => setOpenSlidingWindow(true)}> DELETE</Button>
                                             <Dialog open={openSlidingWindow}
                                                     keepMounted
@@ -218,7 +232,6 @@ const BikeListPage = () => {
                                             </Dialog>
                                         </ThemeProvider>
                                     </ListItem>
-                                    <Divider style={{backgroundColor: '#1A1A1D', height: '2px'}}/>
                                 </li>
                             );
                         })}

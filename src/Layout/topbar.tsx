@@ -10,6 +10,7 @@ import LocalParkingIcon from '@material-ui/icons/LocalParking';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {Link} from 'react-router-dom'
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -52,10 +53,10 @@ export const TopBar: React.FC = () => {
                                 component={Link} to="/bikes"> Bicycles </Button>
                         <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
                                 component={Link} to="/stations"> Stations </Button>
-                        <Button color="inherit" startIcon={<ErrorOutlineIcon/>} className={classes.title}
-                                > Malfunctions </Button>
-                        <Button color="inherit" startIcon={<ExitToAppIcon/>} className={classes.title}
-                                component={Link} to="/login"> Login  </Button>
+                        <Button color="inherit" startIcon={<ErrorOutlineIcon/>}
+                                className={classes.title}> Malfunctions </Button>
+                        <Button color="inherit" startIcon={<PersonOutlineIcon/>} component={Link} to="" 
+                                className={classes.title}> Login </Button>
                     </Toolbar>
                 </AppBar>
             </MuiThemeProvider>
