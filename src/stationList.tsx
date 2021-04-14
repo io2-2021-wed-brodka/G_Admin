@@ -23,6 +23,7 @@ import FormControl from '@material-ui/core/FormControl';
 import {blockBikeStation, deleteBikeStation, getStations, postStation, Station} from "./Api/bikeStationApi";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         ListStyle: {
@@ -97,7 +98,7 @@ function StationListPage() {
     const handleChangeState = (event: React.ChangeEvent<{ value: unknown }>) => {
         setState(Number(event.target.value));
     };
-    const handleAddStation = () => {
+    const handleAddStation = async () => {
         postStation(newStationName).then(r => {
         });
         setOpen(false);
@@ -106,12 +107,12 @@ function StationListPage() {
     const handleChangeName = (location: string) => {
         setName(location);
     };
-    const blockClicked = () => {
+    const blockClicked = async () => {
         blockBikeStation(list[selectedIndex].id.toString());
         setBlockConfirmPopUp(false);
         setStationTrigger(!getStationTrigger);
     };
-    const deleteClicked = () => {
+    const deleteClicked = async () => {
         deleteBikeStation(list[selectedIndex].id.toString());
         setDeleteConfirmPopUp(false);
         setStationTrigger(!getStationTrigger);

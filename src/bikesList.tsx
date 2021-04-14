@@ -101,7 +101,7 @@ const BikeListPage = () => {
     const handleCloseSlidingWindow = () => {
         setOpenSlidingWindow(false);
     };
-    const deleteClicked = () => {
+    const deleteClicked = async () => {
         deleteBike(bikeList[selectedIndex].id);
         setOpenSlidingWindow(false);
         setBikesTrigger(!getBikesTrigger);
@@ -113,7 +113,7 @@ const BikeListPage = () => {
     const handleClose = () => {
         setOpen(false);
     };
-    const handleAddBike = () => {
+    const handleAddBike = async () => {
         postBike(newBikeStation).then(r => {
         });
         setOpen(false);

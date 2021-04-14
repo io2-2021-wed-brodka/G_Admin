@@ -18,7 +18,7 @@ export interface Bike {
 }
 
 export const postBike = async (station: string) => {
-    axios({
+    let res =  await axios({
         method: 'post',
         url: bikes_url,
         data: {
@@ -28,12 +28,12 @@ export const postBike = async (station: string) => {
 }
 
 export const getBikes = async () => {
-    return axios.get(bikes_url).then(r => axiosHandleResponse(r));
+    return axios.get(bikes_url).then(r =>  axiosHandleResponse(r));
 }
 
 export const deleteBike = async (bikeID: string) => {
     let delete_url = bikes_url + bikeID + '/';
-    axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
+    let res =  await axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
         console.log("Error in deleteBike api call");
     });
 }
