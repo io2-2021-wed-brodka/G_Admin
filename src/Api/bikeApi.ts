@@ -1,5 +1,5 @@
 import {BASE_URL} from "./urls"
-import {axiosHandleResponse, delay} from "./ApiUtils"
+import {axiosHandleResponse} from "./ApiUtils"
 import axios from "axios"
 
 const bikes_url = BASE_URL + "bikes/";
