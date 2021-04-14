@@ -24,7 +24,6 @@ import Input from '@material-ui/core/Input';
 import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
 import {getStations, Station} from "./Api/bikeStationApi";
 import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
-import { delay } from "./Api/ApiUtils";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -103,7 +102,6 @@ const BikeListPage = () => {
         setOpenSlidingWindow(false);
     };
     const deleteClicked = async () => {
-        await delay(50);
         deleteBike(bikeList[selectedIndex].id);
         setOpenSlidingWindow(false);
         setBikesTrigger(!getBikesTrigger);
@@ -116,7 +114,6 @@ const BikeListPage = () => {
         setOpen(false);
     };
     const handleAddBike = async () => {
-        await delay(50);
         postBike(newBikeStation).then(r => {
         });
         setOpen(false);
