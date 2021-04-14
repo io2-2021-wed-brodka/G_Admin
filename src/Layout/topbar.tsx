@@ -57,7 +57,7 @@ export const TopBar: React.FC = () => {
                         <Button color="inherit" startIcon={<ErrorOutlineIcon/>}
                                 className={classes.title}> Malfunctions </Button>
                         <Button color="inherit" startIcon={<PersonOutlineIcon/>} component={Link} to="" 
-                                className={classes.title}> Login </Button>
+                                className={classes.title}> Logout </Button>
                     </Toolbar>
                 </AppBar>
             </MuiThemeProvider>
