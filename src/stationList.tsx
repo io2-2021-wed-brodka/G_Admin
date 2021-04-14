@@ -9,7 +9,6 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider,
     InputLabel,
     ListItem,
     ListItemText,
@@ -108,17 +107,17 @@ function StationListPage() {
         setName(location);
     };
     const blockClicked = async () => {
-        blockBikeStation(list[selectedIndex].id.toString());
+        await blockBikeStation(list[selectedIndex].id.toString());
         setBlockConfirmPopUp(false);
         setStationTrigger(!getStationTrigger);
     };
     const deleteClicked = async () => {
-        deleteBikeStation(list[selectedIndex].id.toString());
+        await deleteBikeStation(list[selectedIndex].id.toString());
         setDeleteConfirmPopUp(false);
         setStationTrigger(!getStationTrigger);
     };
     const handleCloseBlockConfirmPopUp = () => {
-        setDeleteConfirmPopUp(false);
+        setBlockConfirmPopUp(false);
     };
     const handleCloseDeleteConfirmPopUp = () => {
         setDeleteConfirmPopUp(false);
@@ -147,16 +146,19 @@ function StationListPage() {
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader
-                            style={{ backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
-                                    height: '50px', borderRadius: '15px'}}>
+                            style={{
+                                backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
+                                height: '50px', borderRadius: '15px'
+                            }}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={0} m={1} >
+                                <Box p={0} m={1}>
                                     Name
                                 </Box>
                             </Box>
-                            <Button startIcon={<AddIcon/>} variant="contained"  style={{margin: '5px'}} onClick={handleClickOpen}>
-                                 new station
+                            <Button startIcon={<AddIcon/>} variant="contained" style={{margin: '5px'}}
+                                    onClick={handleClickOpen}>
+                                new station
                             </Button>
                             <Dialog disableBackdropClick open={open} onClose={handleClose}>
                                 <DialogTitle>Fill the form</DialogTitle>
@@ -183,18 +185,20 @@ function StationListPage() {
                         {list.map((station, index) => {
                             return (
                                 <div key={station.id}>
-                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex', 
-                                                    height: '50px', marginBottom: '5px',  marginTop: '5px', borderRadius: '15px'}}
+                                    <ListItem style={{
+                                        backgroundColor: '#69696e', color: 'white', display: 'flex',
+                                        height: '50px', marginBottom: '5px', marginTop: '5px', borderRadius: '15px'
+                                    }}
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
-                                             style={{width: '90%'}}>                                          
+                                             style={{width: '90%'}}>
                                             <Box p={0} m={1}>
-                                                <ListItemText primary={station.name}></ListItemText>
+                                                <ListItemText primary={station.name}/>
                                             </Box>
                                         </Box>
                                         <ThemeProvider theme={themeWarning}>
                                             <Button variant="contained" color="primary" className={classes.blockButton}
-                                                    onClick={() => setBlockConfirmPopUp(true)} 
+                                                    onClick={() => setBlockConfirmPopUp(true)}
                                                     startIcon={<ErrorOutlineIcon/>}> BLOCK</Button>
                                             <Button variant="contained" color="primary" className={classes.deleteButton}
                                                     onClick={() => setDeleteConfirmPopUp(true)}
