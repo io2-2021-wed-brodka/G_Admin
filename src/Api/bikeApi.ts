@@ -25,7 +25,6 @@ export const postBike = async (station: string) => {
             stationId: station,
         }
     });
-    await delay(10000);
 }
 
 export const getBikes = async () => {
@@ -37,6 +36,5 @@ export const deleteBike = async (bikeID: string) => {
     let res =  await axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
         console.log("Error in deleteBike api call");
     });
-    await delay(10000);
 }
     
