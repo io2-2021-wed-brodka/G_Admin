@@ -45,6 +45,3 @@ export const handleError = async <T>(error: any): Promise<IApiResponse<T>> => {
         errorMessage: error.message,
     }
 }
-export function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-}
