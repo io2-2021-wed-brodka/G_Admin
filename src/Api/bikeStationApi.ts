@@ -22,8 +22,7 @@ export const postStation = async (stationName: string) => {
 
 export const getStations = async () => {
     return axios.get(station_url)
-    .then(r => axiosHandleResponse(r))
-    .catch(() => console.log("error"));
+    .then(r => axiosHandleResponse(r));
 }
 
 export const blockBikeStation = async (stationID: string) => {
