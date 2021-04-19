@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {createMuiTheme, createStyles, makeStyles, MuiThemeProvider, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,7 +10,7 @@ import LocalParkingIcon from '@material-ui/icons/LocalParking';
 import {Link} from 'react-router-dom'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { postLogout } from "../Api/registerLoginApi";
+import { postLogout } from "../Api/adminLoginApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -53,26 +53,31 @@ export const TopBar: React.FC = () => {
         <div className={classes.root}>
             <MuiThemeProvider theme={theme}>
                 <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-                                component={Link} to="/">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Button color="inherit" startIcon={<DirectionsBikeIcon/>} className={classes.title}
-                                component={Link} to="/bikes"> Bicycles </Button>
-                        <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
-                                component={Link} to="/stations"> Stations </Button>
-                        {userLoggedIn() ?
+                    {userLoggedIn() ?
+                        <Toolbar>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                    component={Link} to="/">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Button color="inherit" startIcon={<DirectionsBikeIcon/>} className={classes.title}
+                                    component={Link} to="/bikes"> Bicycles </Button>
+                            <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
+                                    component={Link} to="/stations"> Stations </Button>
                             <Button color="inherit" startIcon={<ExitToAppIcon/>} className={classes.title}
                                     onClick={handleLogout}> Logout </Button>
-                        :
-                            <Button color="inherit" startIcon={<PersonOutlineIcon/>} className={classes.title}
-                                    component={Link} to="/login"> Login </Button>
-                        }
-                    </Toolbar>
+                        </Toolbar>
+                    :
+                        <Toolbar>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                    component={Link} to="/">
+                                <MenuIcon/>
+                            </IconButton>
+                                <Button color="inherit" startIcon={<PersonOutlineIcon/>} className={classes.title}
+                                        component={Link} to="/login"> Login </Button>
+                        </Toolbar>
+                    }
                 </AppBar>
             </MuiThemeProvider>
-
         </div>
     );
 }

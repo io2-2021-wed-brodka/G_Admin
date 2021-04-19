@@ -9,7 +9,7 @@ import {
   import BikeListPage from './bikesList';
   import StationListPage from './stationList'
   import bicycleWallpaper from './Resources/bikeWP.jpg';
-  import { RegisterLoginPage } from "./registerLogin";
+  import { RegisterLoginPage } from "./adminLogin";
   
   export default function App() {
     return (
@@ -24,9 +24,6 @@ import {
                         </Route>
                         <Route path="/stations">
                             <StationListPage/>
-                        </Route>
-                        <Route path="/register">
-                            <RegisterLoginPage/>
                         </Route>
                         <Route path="/login">
                             <RegisterLoginPage/>
