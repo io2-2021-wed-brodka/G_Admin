@@ -9,7 +9,6 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Divider,
     InputLabel,
     ListItem,
     ListItemText,
@@ -58,10 +57,10 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: theme.spacing(1),
             minWidth: 120,
         },
-        generalContainer:{  
-         height: '91vh',
-         display: 'flex',
-         flexDirection: 'column'
+        generalContainer: {
+            height: '91vh',
+            display: 'flex',
+            flexDirection: 'column'
         }
     }),
 );
@@ -72,51 +71,43 @@ const themeWarning = createMuiTheme({
         }
     },
 });
-const themeListItem = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#4E4E50'
-        }
-    },
-});
-let bicycles: Bike[] = [];
 const BikeListPage = () => {
     const classes = useStyles();
-    const [openSlidingWindow, setOpenSlidingWindow] = useState<boolean>(false);
-    const [open, setOpen] = useState<boolean>(false);
-    const [newBikeState, setState] = React.useState<number>(0);
-    const [newBikeStation, setStation] = React.useState<string>("0");
-    const [bikeList, setBikeList] = React.useState<Bike[]>(bicycles);
+    const [openDeleteBike, setOpenDeleteBike] = useState<boolean>(false);
+    const [openCreateBike, setOpenCreateBike] = useState<boolean>(false);
+    const [chosenStationId, setChosenStationId] = React.useState<string>("");
+    const [bikeList, setBikeList] = React.useState<Bike[]>([]);
     const [stationList, setStationList] = React.useState<Station[]>([]);
     const [selectedIndex, setSelectedIndex] = React.useState(-1);
     const [getBikesTrigger, setBikesTrigger] = React.useState(true);
-    const handleListItemClick = (
+    const handleBikeListItemClick = (
         index: number,
     ) => {
         setSelectedIndex(index);
     };
-    const handleChangeStation = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setStation(String(event.target.value));
+    const handleChangeChosenStation = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setChosenStationId(String(event.target.value));
     };
-    const handleCloseSlidingWindow = () => {
-        setOpenSlidingWindow(false);
+    const handleCloseDeleteBike = () => {
+        setOpenDeleteBike(false);
     };
-    const deleteClicked = () => {
-        deleteBike(bikeList[selectedIndex].id);
-        setOpenSlidingWindow(false);
+    const deleteBikeClicked = async () => {
+        await deleteBike(bikeList[selectedIndex].id);
+        setOpenDeleteBike(false);
         setBikesTrigger(!getBikesTrigger);
     };
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleOpenCreateBike = () => {
+        setChosenStationId(stationList[0].id);
+        setOpenCreateBike(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleCloseCreateBike = () => {
+        setOpenCreateBike(false);
     };
-    const handleAddBike = () => {
-        postBike(newBikeStation).then(r => {
+    const handleCreateBike = async () => {
+        postBike(chosenStationId).then(r => {
         });
-        setOpen(false);
+        setOpenCreateBike(false);
         setBikesTrigger(!getBikesTrigger);
     };
     useEffect(() => {
@@ -149,21 +140,24 @@ const BikeListPage = () => {
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader
-                            style={{backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
-                                    height: '50px', borderRadius: '15px'}}>
+                            style={{
+                                backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
+                                height: '50px', borderRadius: '15px'
+                            }}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
-                                <Box p={1} m={1} >
+                                <Box p={1} m={1}>
                                     State
                                 </Box>
-                                <Box p={1} m={1} style={{marginLeft:'6%'}}>
+                                <Box p={1} m={1} style={{marginLeft: '6%'}}>
                                     Station
                                 </Box>
                             </Box>
-                            <Button startIcon={<AddIcon/>} variant="contained"  style={{margin: '5px'}} onClick={handleClickOpen}>
+                            <Button startIcon={<AddIcon/>} variant="contained" style={{margin: '5px'}}
+                                    onClick={handleOpenCreateBike}>
                                 NEW BIKE
                             </Button>
-                            <Dialog disableBackdropClick open={open} onClose={handleClose}>
+                            <Dialog disableBackdropClick open={openCreateBike} onClose={handleCloseCreateBike}>
                                 <DialogTitle>Fill the form</DialogTitle>
                                 <DialogContent>
                                     <form className={classes.container}>
@@ -171,7 +165,7 @@ const BikeListPage = () => {
                                             <InputLabel htmlFor="demo-dialog-native">
                                                 station
                                             </InputLabel>
-                                            <Select native value={newBikeStation} onChange={handleChangeStation}
+                                            <Select native value={chosenStationId} onChange={handleChangeChosenStation}
                                                     input={<Input/>}>
                                                 {stationList.map((station) => {
                                                     return (
@@ -183,10 +177,10 @@ const BikeListPage = () => {
                                     </form>
                                 </DialogContent>
                                 <DialogActions>
-                                    <Button onClick={handleAddBike} color="primary">
+                                    <Button onClick={handleCreateBike} color="primary">
                                         OK
                                     </Button>
-                                    <Button onClick={handleClose} color="primary">
+                                    <Button onClick={handleCloseCreateBike} color="primary">
                                         Cancel
                                     </Button>
                                 </DialogActions>
@@ -195,25 +189,27 @@ const BikeListPage = () => {
                         {bikeList.map((bike, index) => {
                             return (
                                 <li key={bike.id}>
-                                    <ListItem style={{backgroundColor: '#69696e', color: 'white', display: 'flex', 
-                                                    height: '50px', marginBottom: '5px',  marginTop: '5px', borderRadius: '15px'}}
-                                              onClick={() => handleListItemClick(index)}>
+                                    <ListItem style={{
+                                        backgroundColor: '#69696e', color: 'white', display: 'flex',
+                                        height: '50px', marginBottom: '5px', marginTop: '5px', borderRadius: '15px'
+                                    }}
+                                              onClick={() => handleBikeListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
-                                            <Box p={2} m={1}  >
-                                                <ListItemText primary={BikeState[bike.status]}></ListItemText>
+                                            <Box p={2} m={1}>
+                                                <ListItemText primary={BikeState[bike.status]}/>
                                             </Box>
                                             <Box p={2} m={1}>
-                                                <ListItemText
-                                                    primary={bike.station == null ? "" : bike.station.name}></ListItemText>
+                                                <ListItemText primary={bike.station == null ? "" : bike.station.name}/>
                                             </Box>
                                         </Box>
                                         <ThemeProvider theme={themeWarning}>
-                                            <Button className={classes.deleteButton} id="delete_bike_button" startIcon={<DeleteOutlineSharpIcon/>}
-                                                    onClick={() => setOpenSlidingWindow(true)}> DELETE</Button>
-                                            <Dialog open={openSlidingWindow}
+                                            <Button className={classes.deleteButton} id="delete_bike_button"
+                                                    startIcon={<DeleteOutlineSharpIcon/>}
+                                                    onClick={() => setOpenDeleteBike(true)}> DELETE</Button>
+                                            <Dialog open={openDeleteBike}
                                                     keepMounted
-                                                    onClose={handleCloseSlidingWindow}>
+                                                    onClose={handleCloseDeleteBike}>
                                                 <DialogTitle
                                                     id="alert-dialog-slide-title">{"Delete this bike?"}</DialogTitle>
                                                 <DialogContent>
@@ -222,10 +218,10 @@ const BikeListPage = () => {
                                                     </DialogContentText>
                                                 </DialogContent>
                                                 <DialogActions>
-                                                    <Button onClick={handleCloseSlidingWindow} color="primary">
+                                                    <Button onClick={handleCloseDeleteBike} color="primary">
                                                         No
                                                     </Button>
-                                                    <Button onClick={deleteClicked} color="primary">
+                                                    <Button onClick={deleteBikeClicked} color="primary">
                                                         Yes
                                                     </Button>
                                                 </DialogActions>
