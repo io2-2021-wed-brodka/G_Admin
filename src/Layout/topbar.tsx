@@ -40,7 +40,7 @@ const theme = createMuiTheme({
     }
 });
 
-const userLoggedIn = () => { 
+export const adminLoggedIn = () => { 
     return sessionStorage.length != 0; 
 }
 
@@ -53,7 +53,7 @@ export const TopBar: React.FC = () => {
         <div className={classes.root}>
             <MuiThemeProvider theme={theme}>
                 <AppBar position="static">
-                    {userLoggedIn() ?
+                    {adminLoggedIn() ?
                         <Toolbar>
                             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
                                     component={Link} to="/">

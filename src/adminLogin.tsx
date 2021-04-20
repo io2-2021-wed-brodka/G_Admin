@@ -57,7 +57,7 @@ createStyles({
 }),
 );
 
-export const RegisterLoginPage = () =>{
+export const AdminLoginPage = () =>{
     const classes = useStyles();
     const [login, setLogin] = useState<string>("Login");
     const [password, setPassword] = useState<string>("Password");
@@ -71,13 +71,21 @@ export const RegisterLoginPage = () =>{
     const handleLogging = () => {
         postLogin(login, password);
     }
+    const onEnterDown = (event : any) => {
+        if(event.key == "Enter") {
+          event.preventDefault();
+          handleLogging();
+        }
+    }
     return (
         <div className={classes.windowContainer}>
             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center">
                 <Container fixed className={classes.formContainer} >
                     <div className={classes.welcomeLabel}>Log in as Administrator</div>
-                    <TextField id="standard-login" label="Login" variant="filled" className={classes.textFieldStyle} onChange={(event: any) => handleChangeLogin(event.target.value)}/>
-                    <TextField id="standard-password" type="password" label="Password" variant="filled" className={classes.textFieldStyle} onChange={(event: any) => handleChangePassword(event.target.value)}/>
+                    <TextField id="standard-login" label="Login" variant="filled" className={classes.textFieldStyle} 
+                      onChange={(event: any) => handleChangeLogin(event.target.value)} onKeyDown={onEnterDown}/>
+                    <TextField id="standard-password" type="password" label="Password" variant="filled" className={classes.textFieldStyle} 
+                      onChange={(event: any) => handleChangePassword(event.target.value)} onKeyDown={onEnterDown}/>
                     <Button variant="contained" style={{borderRadius: '15px'}} onClick={handleLogging}>Log in</Button>
                 </Container>
             </Box>  

@@ -3,13 +3,14 @@ import {
     Switch,
     Route,
   } from "react-router-dom";
-  import './App.css';
-  import './Layout/topbar.tsx';
-  import { TopBar } from './Layout/topbar';
-  import BikeListPage from './bikesList';
-  import StationListPage from './stationList'
-  import bicycleWallpaper from './Resources/bikeWP.jpg';
-  import { RegisterLoginPage } from "./adminLogin";
+import './App.css';
+import './Layout/topbar.tsx';
+import { TopBar } from './Layout/topbar';
+import BikeListPage from './bikesList';
+import StationListPage from './stationList'
+import bicycleWallpaper from './Resources/bikeWP.jpg';
+import { AdminLoginPage } from "./adminLogin";
+import { ProtectedRoute } from "./ProtectedRoute";
   
   export default function App() {
     return (
@@ -19,14 +20,14 @@ import {
                 <div>
                     <TopBar/>
                     <Switch>
-                        <Route path="/bikes">
+                        <ProtectedRoute path="/bikes">
                             <BikeListPage/>
-                        </Route>
-                        <Route path="/stations">
+                        </ProtectedRoute>
+                        <ProtectedRoute path="/stations">
                             <StationListPage/>
-                        </Route>
+                        </ProtectedRoute>
                         <Route path="/login">
-                            <RegisterLoginPage/>
+                            <AdminLoginPage/>
                         </Route>
                         <Route path="/">
                         </Route>
