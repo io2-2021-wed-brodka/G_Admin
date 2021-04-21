@@ -20,7 +20,7 @@ import AddIcon from '@material-ui/icons/Add';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import {Bike, BikeState, deleteBike, getBikes, postBike} from "./Api/bikeApi";
+import {Bike, BikeStatus, deleteBike, getBikes, postBike} from "./Api/bikeApi";
 import {getStations, Station} from "./Api/bikeStationApi";
 import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
 
@@ -118,7 +118,7 @@ const BikeListPage = () => {
             }
             let list: Bike[] = r.data as Bike[] || [];
             list = list.map(e => {
-                return {id: e.id, status: BikeState.InService, station: e.station}
+                return {id: e.id, status: e.status, station: e.station}
             });
             setBikeList(list);
         });
@@ -197,7 +197,7 @@ const BikeListPage = () => {
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
                                             <Box p={2} m={1}>
-                                                <ListItemText primary={BikeState[bike.status]}/>
+                                                <ListItemText primary={BikeStatus[bike.status]}/>
                                             </Box>
                                             <Box p={2} m={1}>
                                                 <ListItemText primary={bike.station == null ? "" : bike.station.name}/>
