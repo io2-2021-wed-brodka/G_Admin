@@ -5,6 +5,7 @@ import {TopBar} from './Layout/topbar';
 import BikeListPage from './bikesList';
 import StationListPage from './stationList';
 import bicycleWallpaper from './Resources/bikeWP.jpg';
+import { RegisterPage } from "./Register";
 
 export default function App() {
     return (
@@ -19,6 +20,9 @@ export default function App() {
                         </Route>
                         <Route path="/stations">
                             <StationListPage/>
+                        </Route>
+                        <Route path="/register">
+                            <RegisterPage/>
                         </Route>
                     </Switch>
                 </div>
