@@ -1,16 +1,16 @@
 import {BASE_URL} from "./urls"
-import {axiosHandleResponse} from "./ApiUtils"
+import {axiosHandleResponse, getRequestConfig} from "./ApiUtils"
 import axios from "axios"
 
 const bikes_url = BASE_URL + "bikes/";
 
-export enum BikeState {
-    Working, InService, Blocked,
+export enum BikeStatus {
+    Available, Rented, Reserved, Blocked,
 }
 
 export interface Bike {
     id: string;
-    status: BikeState;
+    status: BikeStatus;
     station?: {
         id: string;
         name: string;
@@ -18,23 +18,18 @@ export interface Bike {
 }
 
 export const postBike = async (station: string) => {
-    let res =  await axios({
-        method: 'post',
-        url: bikes_url,
-        data: {
-            stationId: station,
-        }
-    });
+    axios.post(bikes_url, { stationId: station }, getRequestConfig());
 }
 
 export const getBikes = async () => {
-    return axios.get(bikes_url).then(r =>  axiosHandleResponse(r));
+    return axios.get(bikes_url, getRequestConfig())
+    .then(r => axiosHandleResponse(r));
 }
 
 export const deleteBike = async (bikeID: string) => {
-    let delete_url = bikes_url + bikeID + '/';
-    let res =  await axios.delete(delete_url).then(r => axiosHandleResponse(r)).catch(() => {
-        console.log("Error in deleteBike api call");
-    });
+    let delete_url = `${bikes_url}${bikeID}/`;
+    axios.delete(delete_url, getRequestConfig())
+    .then(r => axiosHandleResponse(r))
+    .catch(() => { console.log("Error in deleteBike api call"); });
 }
     

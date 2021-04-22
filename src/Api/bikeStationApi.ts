@@ -1,5 +1,5 @@
 import {BASE_URL} from "./urls"
-import {axiosHandleResponse} from "./ApiUtils"
+import {axiosHandleResponse, getRequestConfig} from "./ApiUtils"
 import {Bike} from "./bikeApi"
 import axios from "axios";
 
@@ -17,19 +17,23 @@ export interface Station {
 }
 
 export const postStation = async (stationName: string) => {
-    return axios.post(station_url, {name: stationName}).then(r => axiosHandleResponse(r));
+    return axios.post(station_url, {name: stationName}, getRequestConfig())
+    .then(r => axiosHandleResponse(r));
 }
 
 export const getStations = async () => {
-    return axios.get(station_url).then(r => axiosHandleResponse(r));
+    return axios.get(station_url, getRequestConfig())
+    .then(r => axiosHandleResponse(r));
 }
 
 export const blockBikeStation = async (stationID: string) => {
     let url = `${station_url}blocked/`;
-    axios.post(url, {id: stationID}).then(r => axiosHandleResponse(r))
+    axios.post(url, {id: stationID}, getRequestConfig())
+    .then(r => axiosHandleResponse(r))
 }
 
 export const deleteBikeStation = async (stationID: string) => {
     let url = `${station_url}${stationID}/`;
-    axios.delete(url).then(r => axiosHandleResponse(r))
+    axios.delete(url, getRequestConfig())
+    .then(r => axiosHandleResponse(r))
 }

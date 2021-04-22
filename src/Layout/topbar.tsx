@@ -7,9 +7,10 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
 import LocalParkingIcon from '@material-ui/icons/LocalParking';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import {Link} from 'react-router-dom'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { postLogout } from "../Api/adminLoginApi";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,7 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             flexGrow: 1,
+            marginLeft: "10px",
+            marginRight: "10px",
         },
+        toolbar: {
+            display: "flex",
+            justifyContent: "space-between",
+        }
     }),
 );
 const theme = createMuiTheme({
@@ -38,30 +45,53 @@ const theme = createMuiTheme({
 
     }
 });
+
+export const adminLoggedIn = () => { 
+    return sessionStorage.length != 0; 
+}
+
 export const TopBar: React.FC = () => {
     const classes = useStyles();
+    const handleLogout = () => {
+        postLogout();
+    }
     return (
         <div className={classes.root}>
             <MuiThemeProvider theme={theme}>
                 <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Button color="inherit" startIcon={<DirectionsBikeIcon/>} className={classes.title}
-                                component={Link} to="/bikes">
-                            Bicycles
-                        </Button>
-                        <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
-                                component={Link} to="/stations"> Stations </Button>
-                        <Button color="inherit" startIcon={<ErrorOutlineIcon/>}
-                                className={classes.title}> Malfunctions </Button>
-                        <Button color="inherit" startIcon={<PersonOutlineIcon/>} component={Link} to="" 
-                                className={classes.title}> Login </Button>
-                    </Toolbar>
+                    {adminLoggedIn() ?
+                        <Toolbar className={classes.toolbar}>
+                            <div>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                    component={Link} to="/">
+                                <MenuIcon/>
+                            </IconButton>
+                            <Button color="inherit" startIcon={<DirectionsBikeIcon/>} className={classes.title}
+                                    component={Link} to="/bikes"> Bicycles </Button>
+                            <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
+                                    component={Link} to="/stations"> Stations </Button>
+                            </div>
+                            <div>
+                            <Button color="inherit" startIcon={<ExitToAppIcon/>} className={classes.title}
+                                    onClick={handleLogout}> Logout </Button>
+                            </div>
+                        </Toolbar>
+                    :
+                        <Toolbar className={classes.toolbar}>
+                            <div>
+                            <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                    component={Link} to="/">
+                                <MenuIcon/>
+                            </IconButton>
+                            </div>
+                            <div>
+                            <Button color="inherit" startIcon={<PersonOutlineIcon/>} className={classes.title}
+                                    component={Link} to="/login"> Login </Button>
+                            </div>
+                        </Toolbar>
+                    }
                 </AppBar>
             </MuiThemeProvider>
-
         </div>
     );
 }

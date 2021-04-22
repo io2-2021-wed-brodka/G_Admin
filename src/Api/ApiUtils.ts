@@ -45,3 +45,12 @@ export const handleError = async <T>(error: any): Promise<IApiResponse<T>> => {
         errorMessage: error.message,
     }
 }
+
+export const getRequestConfig = () => {
+    return {
+        headers : {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + sessionStorage.getItem("token")
+        }
+    };
+}
