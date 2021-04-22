@@ -22,7 +22,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             flexGrow: 1,
+            marginLeft: "10px",
+            marginRight: "10px",
         },
+        toolbar: {
+            display: "flex",
+            justifyContent: "space-between",
+        }
     }),
 );
 const theme = createMuiTheme({
@@ -54,7 +60,8 @@ export const TopBar: React.FC = () => {
             <MuiThemeProvider theme={theme}>
                 <AppBar position="static">
                     {adminLoggedIn() ?
-                        <Toolbar>
+                        <Toolbar className={classes.toolbar}>
+                            <div>
                             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
                                     component={Link} to="/">
                                 <MenuIcon/>
@@ -63,17 +70,24 @@ export const TopBar: React.FC = () => {
                                     component={Link} to="/bikes"> Bicycles </Button>
                             <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
                                     component={Link} to="/stations"> Stations </Button>
+                            </div>
+                            <div>
                             <Button color="inherit" startIcon={<ExitToAppIcon/>} className={classes.title}
                                     onClick={handleLogout}> Logout </Button>
+                            </div>
                         </Toolbar>
                     :
-                        <Toolbar>
+                        <Toolbar className={classes.toolbar}>
+                            <div>
                             <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
                                     component={Link} to="/">
                                 <MenuIcon/>
                             </IconButton>
-                                <Button color="inherit" startIcon={<PersonOutlineIcon/>} className={classes.title}
-                                        component={Link} to="/login"> Login </Button>
+                            </div>
+                            <div>
+                            <Button color="inherit" startIcon={<PersonOutlineIcon/>} className={classes.title}
+                                    component={Link} to="/login"> Login </Button>
+                            </div>
                         </Toolbar>
                     }
                 </AppBar>

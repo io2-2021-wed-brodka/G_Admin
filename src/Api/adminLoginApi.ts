@@ -9,7 +9,7 @@ const logout_url = BASE_URL + "logout/";
 const axiosHandleLoginResponse = async <T>(response: AxiosResponse): Promise<IApiResponse<T>> => {
     if (response.status >= 200 && response.status < 300) {
         sessionStorage.setItem("token", response.data.token);
-        window.location.href="/"; // odśwież całą stronę oraz przenieś na główną stronę
+        window.location.href="/"; // refresh and redirect to main page
         return {
             isError: false,
             responseCode: response.status,
