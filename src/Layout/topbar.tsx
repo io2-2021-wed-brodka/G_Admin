@@ -1,50 +1,52 @@
-import React from 'react';
+import React from "react";
 import {
   createMuiTheme,
   createStyles,
   makeStyles,
   MuiThemeProvider,
   Theme,
-} from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import DirectionsBikeIcon from '@material-ui/icons/DirectionsBike';
-import LocalParkingIcon from '@material-ui/icons/LocalParking';
-import { Link } from 'react-router-dom';
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { postLogout } from '../Api/adminLoginApi';
+} from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import DirectionsBikeIcon from "@material-ui/icons/DirectionsBike";
+import LocalParkingIcon from "@material-ui/icons/LocalParking";
+import { Link } from "react-router-dom";
+import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { postLogout } from "../Api/adminLoginApi";
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-    marginLeft: '10px',
-    marginRight: '10px',
-  },
-  toolbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      marginLeft: "10px",
+      marginRight: "10px",
+    },
+    toolbar: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+  })
+);
 const theme = createMuiTheme({
   palette: {
     secondary: {
-      main: '#4E4E50',
+      main: "#4E4E50",
     },
     primary: {
-      main: '#1A1A1D',
+      main: "#1A1A1D",
     },
     warning: {
-      main: '#950740',
+      main: "#950740",
     },
   },
 });
@@ -80,9 +82,8 @@ export const TopBar: React.FC = () => {
                   component={Link}
                   to="/bikes"
                 >
-                  {' '}
-                  Bicycles
-                  {' '}
+                  {" "}
+                  Bicycles{" "}
                 </Button>
                 <Button
                   color="inherit"
@@ -91,9 +92,8 @@ export const TopBar: React.FC = () => {
                   component={Link}
                   to="/stations"
                 >
-                  {' '}
-                  Stations
-                  {' '}
+                  {" "}
+                  Stations{" "}
                 </Button>
               </div>
               <div>
@@ -103,9 +103,8 @@ export const TopBar: React.FC = () => {
                   className={classes.title}
                   onClick={handleLogout}
                 >
-                  {' '}
-                  Logout
-                  {' '}
+                  {" "}
+                  Logout{" "}
                 </Button>
               </div>
             </Toolbar>
@@ -131,9 +130,8 @@ export const TopBar: React.FC = () => {
                   component={Link}
                   to="/login"
                 >
-                  {' '}
-                  Login
-                  {' '}
+                  {" "}
+                  Login{" "}
                 </Button>
               </div>
             </Toolbar>

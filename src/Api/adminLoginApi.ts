@@ -1,21 +1,21 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from "axios";
 
-import { BASE_URL } from './urls';
+import { BASE_URL } from "./urls";
 import {
   axiosHandleResponse,
   getRequestConfig,
   IApiResponse,
-} from './ApiUtils';
+} from "./ApiUtils";
 
 const login_url = `${BASE_URL}login/`;
 const logout_url = `${BASE_URL}logout/`;
 
 const axiosHandleLoginResponse = async <T>(
-  response: AxiosResponse,
+  response: AxiosResponse
 ): Promise<IApiResponse<T>> => {
   if (response.status >= 200 && response.status < 300) {
-    sessionStorage.setItem('token', response.data.token);
-    window.location.href = '/'; // refresh and redirect to main page
+    sessionStorage.setItem("token", response.data.token);
+    window.location.href = "/"; // refresh and redirect to main page
     return {
       isError: false,
       responseCode: response.status,
@@ -34,12 +34,12 @@ export const postLogin = async (login: string, password: string) => {
     .post(login_url, {
       login,
       password,
-      role: 'admin',
+      role: "admin",
     })
     .then((r) => axiosHandleLoginResponse(r))
     .catch((r) => {
-      if (r.response.status == 401) alert('Bad credentials');
-      else console.log('error');
+      if (r.response.status == 401) alert("Bad credentials");
+      else console.log("error");
     });
 };
 
@@ -49,9 +49,9 @@ export const postLogout = async () => {
     .then((r) => {
       axiosHandleResponse(r);
       sessionStorage.clear();
-      window.location.href = '/login';
+      window.location.href = "/login";
     })
     .catch(() => {
-      console.log('error');
+      console.log("error");
     });
 };

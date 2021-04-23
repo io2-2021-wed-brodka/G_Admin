@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from "axios";
 
 export interface IApiResponse<T> {
   isError: boolean;
@@ -8,7 +8,7 @@ export interface IApiResponse<T> {
 }
 
 export const handleResponse = async <T>(
-  response: Response,
+  response: Response
 ): Promise<IApiResponse<T>> => {
   if (response.ok) {
     return {
@@ -24,7 +24,7 @@ export const handleResponse = async <T>(
   };
 };
 export const axiosHandleResponse = async <T>(
-  response: AxiosResponse,
+  response: AxiosResponse
 ): Promise<IApiResponse<T>> => {
   if (response.status >= 200 && response.status < 300) {
     return {
@@ -48,7 +48,7 @@ export const handleError = async <T>(error: any): Promise<IApiResponse<T>> => ({
 
 export const getRequestConfig = () => ({
   headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${sessionStorage.getItem("token")}`,
   },
 });

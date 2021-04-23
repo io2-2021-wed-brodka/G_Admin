@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   createMuiTheme,
   createStyles,
   makeStyles,
   Theme,
   ThemeProvider,
-} from '@material-ui/core/styles';
-import './App.css';
-import './Layout/topbar.tsx';
-import List from '@material-ui/core/List';
+} from "@material-ui/core/styles";
+import "./App.css";
+import "./Layout/topbar.tsx";
+import List from "@material-ui/core/List";
 import {
   Button,
   DialogActions,
@@ -19,70 +19,72 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
-} from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import AddIcon from '@material-ui/icons/Add';
-import Dialog from '@material-ui/core/Dialog/Dialog';
-import Input from '@material-ui/core/Input';
-import FormControl from '@material-ui/core/FormControl';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
-import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
+} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import AddIcon from "@material-ui/icons/Add";
+import Dialog from "@material-ui/core/Dialog/Dialog";
+import Input from "@material-ui/core/Input";
+import FormControl from "@material-ui/core/FormControl";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
 import {
   blockBikeStation,
   deleteBikeStation,
   getStations,
   postStation,
   Station,
-} from './Api/bikeStationApi';
+} from "./Api/bikeStationApi";
 
-const useStyles = makeStyles((theme: Theme) => createStyles({
-  ListStyle: {
-    overflowY: 'auto',
-    opacity: '0.92',
-    marginLeft: '10%',
-    marginRight: '10%',
-    marginTop: '2%',
-  },
-  ListFont: {
-    color: 'white',
-  },
-  listSection: {
-    backgroundColor: 'inherit',
-  },
-  ul: {
-    backgroundColor: 'inherit',
-    padding: 0,
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  deleteButton: {
-    backgroundColor: '#D11A2A',
-    variant: 'contained',
-    margin: '5px',
-  },
-  blockButton: {
-    backgroundColor: '#f2e20e',
-    variant: 'contained',
-    margin: '5px',
-  },
-}));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    ListStyle: {
+      overflowY: "auto",
+      opacity: "0.92",
+      marginLeft: "10%",
+      marginRight: "10%",
+      marginTop: "2%",
+    },
+    ListFont: {
+      color: "white",
+    },
+    listSection: {
+      backgroundColor: "inherit",
+    },
+    ul: {
+      backgroundColor: "inherit",
+      padding: 0,
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    container: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+    deleteButton: {
+      backgroundColor: "#D11A2A",
+      variant: "contained",
+      margin: "5px",
+    },
+    blockButton: {
+      backgroundColor: "#f2e20e",
+      variant: "contained",
+      margin: "5px",
+    },
+  })
+);
 const themeWarning = createMuiTheme({
   palette: {
     primary: {
-      main: '#950740',
+      main: "#950740",
     },
   },
 });
 const themeListItem = createMuiTheme({
   palette: {
     primary: {
-      main: '#4E4E50',
+      main: "#4E4E50",
     },
   },
 });
@@ -92,14 +94,14 @@ function StationListPage() {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [newStationState, setState] = React.useState<number>(0);
-  const [newStationName, setName] = React.useState<string>('Generic Location');
+  const [newStationName, setName] = React.useState<string>("Generic Location");
   const [list, setList] = React.useState<Station[]>(stations);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [openDeleteConfirmPopUp, setDeleteConfirmPopUp] = useState<boolean>(
-    false,
+    false
   );
   const [openBlockConfirmPopUp, setBlockConfirmPopUp] = useState<boolean>(
-    false,
+    false
   );
   const [getStationTrigger, setStationTrigger] = React.useState(true);
   const handleClickOpen = () => {
@@ -141,12 +143,15 @@ function StationListPage() {
   useEffect(() => {
     getStations().then((r) => {
       if (r.isError) {
-        alert('Error');
+        alert("Error");
         return;
       }
       let list: Station[] = (r.data as Station[]) || [];
       list = list.map((e) => ({
-        id: e.id, name: e.name, state: e.state, bikes: e.bikes,
+        id: e.id,
+        name: e.name,
+        state: e.state,
+        bikes: e.bikes,
       }));
       setList(list);
     });
@@ -154,18 +159,18 @@ function StationListPage() {
   return (
     <div
       className="App"
-      style={{ height: '91vh', display: 'flex', flexDirection: 'column' }}
+      style={{ height: "91vh", display: "flex", flexDirection: "column" }}
     >
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader
               style={{
-                backgroundColor: '#4E4E50',
-                display: 'flex',
-                fontWeight: 'bold',
-                height: '50px',
-                borderRadius: '15px',
+                backgroundColor: "#4E4E50",
+                display: "flex",
+                fontWeight: "bold",
+                height: "50px",
+                borderRadius: "15px",
               }}
             >
               <Box
@@ -174,7 +179,7 @@ function StationListPage() {
                 p={1}
                 m={1}
                 alignSelf="center"
-                style={{ width: '90%' }}
+                style={{ width: "90%" }}
               >
                 <Box p={0} m={1}>
                   Name
@@ -183,7 +188,7 @@ function StationListPage() {
               <Button
                 startIcon={<AddIcon />}
                 variant="contained"
-                style={{ margin: '5px' }}
+                style={{ margin: "5px" }}
                 onClick={handleClickOpen}
               >
                 new station
@@ -195,7 +200,9 @@ function StationListPage() {
                     <FormControl className={classes.formControl}>
                       <InputLabel htmlFor="demo-dialog-native">Name</InputLabel>
                       <Input
-                        onChange={(event: any) => handleChangeName(event.target.value)}
+                        onChange={(event: any) =>
+                          handleChangeName(event.target.value)
+                        }
                       />
                     </FormControl>
                   </form>
@@ -214,13 +221,13 @@ function StationListPage() {
               <div key={station.id}>
                 <ListItem
                   style={{
-                    backgroundColor: '#69696e',
-                    color: 'white',
-                    display: 'flex',
-                    height: '50px',
-                    marginBottom: '5px',
-                    marginTop: '5px',
-                    borderRadius: '15px',
+                    backgroundColor: "#69696e",
+                    color: "white",
+                    display: "flex",
+                    height: "50px",
+                    marginBottom: "5px",
+                    marginTop: "5px",
+                    borderRadius: "15px",
                   }}
                   onClick={() => handleListItemClick(index)}
                 >
@@ -230,7 +237,7 @@ function StationListPage() {
                     p={1}
                     m={1}
                     alignSelf="center"
-                    style={{ width: '90%' }}
+                    style={{ width: "90%" }}
                   >
                     <Box p={0} m={1}>
                       <ListItemText primary={station.name} />
@@ -244,7 +251,7 @@ function StationListPage() {
                       onClick={() => setBlockConfirmPopUp(true)}
                       startIcon={<ErrorOutlineIcon />}
                     >
-                      {' '}
+                      {" "}
                       BLOCK
                     </Button>
                     <Button
@@ -254,7 +261,7 @@ function StationListPage() {
                       onClick={() => setDeleteConfirmPopUp(true)}
                       startIcon={<DeleteOutlineSharpIcon />}
                     >
-                      {' '}
+                      {" "}
                       DELETE
                     </Button>
                     <Dialog

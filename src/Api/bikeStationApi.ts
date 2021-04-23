@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { BASE_URL } from './urls';
-import { axiosHandleResponse, getRequestConfig } from './ApiUtils';
-import { Bike } from './bikeApi';
+import axios from "axios";
+import { BASE_URL } from "./urls";
+import { axiosHandleResponse, getRequestConfig } from "./ApiUtils";
+import { Bike } from "./bikeApi";
 
 const station_url = `${BASE_URL}stations/`;
 
@@ -17,13 +17,15 @@ export interface Station {
   bikes: Bike[];
 }
 
-export const postStation = async (stationName: string) => axios
-  .post(station_url, { name: stationName }, getRequestConfig())
-  .then((r) => axiosHandleResponse(r));
+export const postStation = async (stationName: string) =>
+  axios
+    .post(station_url, { name: stationName }, getRequestConfig())
+    .then((r) => axiosHandleResponse(r));
 
-export const getStations = async () => axios
-  .get(station_url, getRequestConfig())
-  .then((r) => axiosHandleResponse(r));
+export const getStations = async () =>
+  axios
+    .get(station_url, getRequestConfig())
+    .then((r) => axiosHandleResponse(r));
 
 export const blockBikeStation = async (stationID: string) => {
   const url = `${station_url}blocked/`;
