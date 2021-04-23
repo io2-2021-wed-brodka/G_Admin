@@ -34,5 +34,6 @@ export const blockBikeStation = async (stationID: string) => {
 
 export const deleteBikeStation = async (stationID: string) => {
     let url = `${station_url}${stationID}/`;
-    return axios.delete(url);
+    axios.delete(url, getRequestConfig())
+    .then(r => axiosHandleResponse(r))
 }
