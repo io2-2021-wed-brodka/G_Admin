@@ -135,6 +135,9 @@ function StationListPage() {
     ) => {
         setSelectedIndex(index);
     };
+    const handleCloseError = () => {
+        setOpenError(false);
+    };
     useEffect(() => {
         getStations().then(r => {
             if (r.isError) {
