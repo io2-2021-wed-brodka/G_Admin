@@ -29,6 +29,9 @@ export let stations: Station[] = [];
 function StationListPage() {
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
+    const [openError, setOpenError] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [newStationState, setState] = React.useState<number>(0);
     const [newStationName, setName] = React.useState<string>("Generic Location");
     const [list, setList] = React.useState<Station[]>(stations);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -56,9 +59,15 @@ function StationListPage() {
         setStationTrigger(!getStationTrigger);
     };
     const deleteClicked = async () => {
-        await deleteBikeStation(list[selectedIndex].id.toString());
-        setDeleteConfirmPopUp(false);
-        setStationTrigger(!getStationTrigger);
+        await deleteBikeStation(list[selectedIndex].id.toString())
+            .then(response => {
+                setDeleteConfirmPopUp(false);
+                setStationTrigger(!getStationTrigger);
+            }).catch(error => {
+                setDeleteConfirmPopUp(false);
+                setErrorMsg(error.response.data.message);
+                setOpenError(true);
+            });
     };
     const handleCloseBlockConfirmPopUp = () => {
         setBlockConfirmPopUp(false);
@@ -70,6 +79,9 @@ function StationListPage() {
         index: number,
     ) => {
         setSelectedIndex(index);
+    };
+    const handleCloseError = () => {
+        setOpenError(false);
     };
     useEffect(() => {
         getStations().then(r => {
@@ -118,6 +130,17 @@ function StationListPage() {
                                     </Button>
                                     <Button onClick={handleClose} color="primary">
                                         Cancel
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                            <Dialog disableBackdropClick open={openError} onClose={handleClose}>
+                                <DialogTitle>Error</DialogTitle>
+                                <DialogContent>
+                                    <p>{errorMsg}</p>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={handleCloseError} color="primary">
+                                        OK
                                     </Button>
                                 </DialogActions>
                             </Dialog>
