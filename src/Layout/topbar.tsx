@@ -47,7 +47,7 @@ const theme = createMuiTheme({
 });
 
 export const adminLoggedIn = () => { 
-    return sessionStorage.length != 0; 
+    return sessionStorage.length !== 0; 
 }
 
 export const TopBar: React.FC = () => {

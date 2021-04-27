@@ -1,10 +1,7 @@
-import {BASE_URL} from "./urls"
+import {login_url, logout_url} from "./urls"
 import axios from "axios";
 import {AxiosResponse} from "axios"
-import {axiosHandleResponse, getRequestConfig, IApiResponse} from "./ApiUtils"
-
-const login_url = BASE_URL + "login/";
-const logout_url = BASE_URL + "logout/";
+import {axiosHandleResponse, getRequestConfig, IApiResponse} from "./utilsApi"
 
 const axiosHandleLoginResponse = async <T>(response: AxiosResponse): Promise<IApiResponse<T>> => {
     if (response.status >= 200 && response.status < 300) {
@@ -32,7 +29,7 @@ export const postLogin = async (login: string, password: string) => {
     })
     .then(r => axiosHandleLoginResponse(r))
     .catch((r) => {
-        if(r.response.status == 401)
+        if(r.response.status === 401)
             alert("Bad credentials");
         else
             console.log("error"); 

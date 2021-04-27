@@ -6,11 +6,11 @@ import {
 import './App.css';
 import './Layout/topbar.tsx';
 import { TopBar } from './Layout/topbar';
-import BikeListPage from './bikesList';
-import StationListPage from './stationList'
+import BikeListPage from './Pages/bikesList';
+import StationListPage from './Pages/stationList'
 import bicycleWallpaper from './Resources/bikeWP.jpg';
-import { AdminLoginPage } from "./adminLogin";
-import { ProtectedRoute } from "./ProtectedRoute";
+import { AdminLoginPage } from "./Pages/adminLogin";
+import { ProtectedRoute } from "./Pages/ProtectedRoute";
   
   export default function App() {
     return (

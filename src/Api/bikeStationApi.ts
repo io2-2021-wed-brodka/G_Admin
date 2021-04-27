@@ -1,9 +1,7 @@
-import {BASE_URL} from "./urls"
-import {axiosHandleResponse, getRequestConfig} from "./ApiUtils"
+import {block_station_url, station_url} from "./urls"
+import {axiosHandleResponse, getRequestConfig} from "./utilsApi"
 import {Bike} from "./bikeApi"
 import axios from "axios";
-
-const station_url = BASE_URL + "stations/";
 
 export enum StationState {
     Working, Blocked,
@@ -27,8 +25,7 @@ export const getStations = async () => {
 }
 
 export const blockBikeStation = async (stationID: string) => {
-    let url = `${station_url}blocked/`;
-    axios.post(url, {id: stationID}, getRequestConfig())
+    axios.post(block_station_url, {id: stationID}, getRequestConfig())
     .then(r => axiosHandleResponse(r))
 }
 
