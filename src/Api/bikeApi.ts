@@ -1,11 +1,11 @@
-import {BASE_URL} from "./urls"
-import {axiosHandleResponse, getRequestConfig} from "./ApiUtils"
+import {bikes_url} from "./urls"
+import {axiosHandleResponse, getRequestConfig} from "./utilsApi"
 import axios from "axios"
 
-const bikes_url = BASE_URL + "bikes/";
+
 
 export enum BikeStatus {
-    Available, Rented, Reserved, Blocked,
+    available, rented, reserved, blocked,
 }
 
 export interface Bike {

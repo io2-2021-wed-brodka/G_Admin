@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {createMuiTheme, createStyles, makeStyles, Theme, ThemeProvider} from '@material-ui/core/styles';
-import './App.css';
-import './Layout/topbar.tsx';
+import {ThemeProvider} from '@material-ui/core/styles';
+import '../App.css';
+import '../Layout/topbar.tsx';
 import List from '@material-ui/core/List';
 import {
     Button,
@@ -19,69 +19,16 @@ import AddIcon from '@material-ui/icons/Add';
 import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from '@material-ui/core/Input';
 import FormControl from '@material-ui/core/FormControl';
-import {blockBikeStation, deleteBikeStation, getStations, postStation, Station} from "./Api/bikeStationApi";
+import {blockBikeStation, deleteBikeStation, getStations, postStation, Station} from "../Api/bikeStationApi";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import DeleteOutlineSharpIcon from '@material-ui/icons/DeleteOutlineSharp';
+import { themeWarning, useStyles } from "../Styles/style";
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        ListStyle: {
-            overflowY: 'auto',
-            opacity: '0.92',
-            marginLeft: '10%',
-            marginRight: '10%',
-            marginTop: '2%',
-        },
-        ListFont: {
-            color: 'white'
-        },
-        listSection: {
-            backgroundColor: 'inherit',
-        },
-        ul: {
-            backgroundColor: 'inherit',
-            padding: 0,
-        },
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 120,
-        },
-        container: {
-            display: 'flex',
-            flexWrap: 'wrap',
-        },
-        deleteButton: {
-            backgroundColor: '#D11A2A',
-            variant: 'contained',
-            margin: '5px'
-        },
-        blockButton: {
-            backgroundColor: '#f2e20e',
-            variant: 'contained',
-            margin: '5px'
-        },
-    }),
-);
-const themeWarning = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#950740'
-        }
-    },
-});
-const themeListItem = createMuiTheme({
-    palette: {
-        primary: {
-            main: '#4E4E50'
-        }
-    },
-});
 export let stations: Station[] = [];
 
 function StationListPage() {
     const classes = useStyles();
     const [open, setOpen] = useState<boolean>(false);
-    const [newStationState, setState] = React.useState<number>(0);
     const [newStationName, setName] = React.useState<string>("Generic Location");
     const [list, setList] = React.useState<Station[]>(stations);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
@@ -93,9 +40,6 @@ function StationListPage() {
     };
     const handleClose = () => {
         setOpen(false);
-    };
-    const handleChangeState = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setState(Number(event.target.value));
     };
     const handleAddStation = async () => {
         postStation(newStationName).then(r => {
@@ -145,11 +89,7 @@ function StationListPage() {
             <List className={classes.ListStyle} subheader={<li/>}>
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
-                        <ListSubheader
-                            style={{
-                                backgroundColor: '#4E4E50', display: 'flex', fontWeight: 'bold',
-                                height: '50px', borderRadius: '15px'
-                            }}>
+                        <ListSubheader className={classes.listItemStyle}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
                                 <Box p={0} m={1}>
@@ -206,10 +146,11 @@ function StationListPage() {
                                             <Dialog open={openBlockConfirmPopUp}
                                                     keepMounted
                                                     onClose={handleCloseBlockConfirmPopUp}>
-                                                <DialogTitle
-                                                    id="alert-dialog-slide-title">{"Block this station?"}</DialogTitle>
+                                                <DialogTitle>
+                                                    {"Block this station?"}
+                                                </DialogTitle>
                                                 <DialogContent>
-                                                    <DialogContentText id="alert-dialog-slide-description">
+                                                    <DialogContentText>
                                                         Do you really want you block this station?
                                                     </DialogContentText>
                                                 </DialogContent>
@@ -225,10 +166,11 @@ function StationListPage() {
                                             <Dialog open={openDeleteConfirmPopUp}
                                                     keepMounted
                                                     onClose={handleCloseDeleteConfirmPopUp}>
-                                                <DialogTitle
-                                                    id="alert-dialog-slide-title">{"Delete this station?"}</DialogTitle>
+                                                <DialogTitle>
+                                                   {"Delete this station?"}
+                                                </DialogTitle>
                                                 <DialogContent>
-                                                    <DialogContentText id="alert-dialog-slide-description">
+                                                    <DialogContentText>
                                                         Do you really want you delete this station?
                                                     </DialogContentText>
                                                 </DialogContent>
