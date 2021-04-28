@@ -1,5 +1,5 @@
 import {bikes_url} from "./urls"
-import {axiosHandleResponse, getRequestConfig} from "./utilsApi"
+import {axiosHandleResponse, getRequestConfig, IApiResponse} from "./utilsApi"
 import axios from "axios"
 
 
@@ -17,11 +17,15 @@ export interface Bike {
     };
 }
 
+interface Bikes{
+    bikes: Bike[];
+}
+
 export const postBike = async (station: string) => {
     axios.post(bikes_url, { stationId: station }, getRequestConfig());
 }
 
-export const getBikes = async () => {
+export const getBikes = async (): Promise<IApiResponse<Bikes>> => {
     return axios.get(bikes_url, getRequestConfig())
     .then(r => axiosHandleResponse(r));
 }

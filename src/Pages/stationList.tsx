@@ -89,11 +89,7 @@ function StationListPage() {
                 alert("Error");
                 return;
             }
-            let list: Station[] = r.data as Station[] || [];
-            list = list.map(e => {
-                return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}
-            });
-            setList(list);
+            setList(r.data?.stations || []);
         });
     }, [getStationTrigger]);
     return (

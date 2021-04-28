@@ -70,22 +70,14 @@ const BikeListPage = () => {
                 alert("Error");
                 return;
             }
-            let list: Bike[] = r.data as Bike[] || [];
-            list = list.map(e => {
-                return {id: e.id, status: e.status, station: e.station}
-            });
-            setBikeList(list);
+            setBikeList(r.data?.bikes || []);
         });
         getStations().then(r => {
             if (r.isError) {
                 alert("Error");
                 return;
             }
-            let listStation: Station[] = r.data as Station[] || [];
-            listStation = listStation.map(e => {
-                return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}
-            });
-            setStationList(listStation);
+            setStationList(r.data?.stations || []);
         });
     }, [getBikesTrigger]);
     return (
