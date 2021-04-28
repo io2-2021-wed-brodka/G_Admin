@@ -104,6 +104,9 @@ function StationListPage() {
                                 <Box p={0} m={1} style={{marginRight: '30px'}}>
                                     State
                                 </Box>
+                                <Box p={0} m={1} style={{marginRight: '30px'}}>
+                                    Bikes Count
+                                </Box>
                                 <Box p={0} m={1}>
                                     Name
                                 </Box>
@@ -157,6 +160,9 @@ function StationListPage() {
                                              style={{width: '90%'}}>
                                             <Box p={0} m={1}>
                                                 <ListItemText primary={station.state}/>
+                                            </Box>
+                                            <Box p={0} m={1} style={{marginRight: '100px'}}>
+                                                <ListItemText primary={station.activeBikesCount}/>
                                             </Box>
                                             <Box p={0} m={1}>
                                                 <ListItemText primary={station.name}/>
