@@ -89,11 +89,8 @@ function StationListPage() {
                 alert("Error");
                 return;
             }
-            let list: Station[] = r.data as Station[] || [];
-            list = list.map(e => {
-                return {id: e.id, name: e.name, state: e.state, bikes: e.bikes}
-            });
-            setList(list);
+            setList(r.data?.stations || []);
+            console.log(list);
         });
     }, [getStationTrigger]);
     return (
@@ -104,6 +101,12 @@ function StationListPage() {
                         <ListSubheader className={classes.listItemStyle}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
+                                <Box p={0} m={1} style={{marginRight: '30px'}}>
+                                    State
+                                </Box>
+                                <Box p={0} m={1} style={{marginRight: '30px'}}>
+                                    Bikes Count
+                                </Box>
                                 <Box p={0} m={1}>
                                     Name
                                 </Box>
@@ -155,6 +158,12 @@ function StationListPage() {
                                               onClick={() => handleListItemClick(index)}>
                                         <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                              style={{width: '90%'}}>
+                                            <Box p={0} m={1}>
+                                                <ListItemText primary={station.state}/>
+                                            </Box>
+                                            <Box p={0} m={1} style={{marginRight: '100px'}}>
+                                                <ListItemText primary={station.activeBikesCount}/>
+                                            </Box>
                                             <Box p={0} m={1}>
                                                 <ListItemText primary={station.name}/>
                                             </Box>
