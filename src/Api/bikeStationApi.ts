@@ -12,7 +12,7 @@ export interface Station {
     state: StationState;
     name: string;
     bikes: Bike[];
-}
+} 
 interface Stations{
     stations: Station[];
 }
