@@ -1,39 +1,47 @@
-import {bikes_url} from "./urls"
-import {axiosHandleResponse, getRequestConfig, IApiResponse} from "./utilsApi"
-import axios from "axios"
-
-
+import { bikes_url } from "./urls";
+import {
+  axiosHandleResponse,
+  getRequestConfig,
+  IApiResponse,
+} from "./utilsApi";
+import axios from "axios";
 
 export enum BikeStatus {
-    available, rented, reserved, blocked,
+  available,
+  rented,
+  reserved,
+  blocked,
 }
 
 export interface Bike {
+  id: string;
+  status: BikeStatus;
+  station?: {
     id: string;
-    status: BikeStatus;
-    station?: {
-        id: string;
-        name: string;
-    };
+    name: string;
+  };
 }
 
-interface Bikes{
-    bikes: Bike[];
+interface Bikes {
+  bikes: Bike[];
 }
 
 export const postBike = async (station: string) => {
-    axios.post(bikes_url, { stationId: station }, getRequestConfig());
-}
+  axios.post(bikes_url, { stationId: station }, getRequestConfig());
+};
 
 export const getBikes = async (): Promise<IApiResponse<Bikes>> => {
-    return axios.get(bikes_url, getRequestConfig())
-    .then(r => axiosHandleResponse(r));
-}
+  return axios
+    .get(bikes_url, getRequestConfig())
+    .then((r) => axiosHandleResponse(r));
+};
 
 export const deleteBike = async (bikeID: string) => {
-    let delete_url = `${bikes_url}${bikeID}/`;
-    axios.delete(delete_url, getRequestConfig())
-    .then(r => axiosHandleResponse(r))
-    .catch(() => { console.log("Error in deleteBike api call"); });
-}
-    
+  let delete_url = `${bikes_url}${bikeID}/`;
+  axios
+    .delete(delete_url, getRequestConfig())
+    .then((r) => axiosHandleResponse(r))
+    .catch(() => {
+      console.log("Error in deleteBike api call");
+    });
+};
