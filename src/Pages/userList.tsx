@@ -32,6 +32,9 @@ export const UserListPage = () => {
   const [openBlockConfirmPopUp, setBlockConfirmPopUp] = useState<boolean>(
     false
   );
+  const [openUnblockConfirmPopUp, setUnblockConfirmPopUp] = useState<boolean>(
+    false
+  );
   const [viewBlockedUsers, setViewBlockedUsers] = useState<boolean>(false);
   useEffect(() => {
     !viewBlockedUsers
@@ -58,12 +61,16 @@ export const UserListPage = () => {
   const handleCloseBlockConfirmPopUp = () => {
     setBlockConfirmPopUp(false);
   };
+  const handleCloseUnblockConfirmPopUp = () => {
+    setUnblockConfirmPopUp(false);
+  };
   const blockClicked = async () => {
     await blockUser(userList[selectedIndex].id);
     setBlockConfirmPopUp(false);
   };
   const unblockedClicked = async () => {
     await unblockUser(userList[selectedIndex].id);
+    setUnblockConfirmPopUp(false);
   };
   return (
     <div className={classes.generalContainer}>
@@ -121,7 +128,7 @@ export const UserListPage = () => {
                       <Button
                         className={classes.blockButton}
                         startIcon={<ErrorOutlineIcon />}
-                        onClick={unblockedClicked}
+                        onClick={() => setUnblockConfirmPopUp(true)}
                       >
                         Unblock
                       </Button>
@@ -131,7 +138,7 @@ export const UserListPage = () => {
                       keepMounted
                       onClose={handleCloseBlockConfirmPopUp}
                     >
-                      <DialogTitle>Delete this user?</DialogTitle>
+                      <DialogTitle>Block this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
                           Do you really want you block this user?
@@ -145,6 +152,29 @@ export const UserListPage = () => {
                           No
                         </Button>
                         <Button onClick={blockClicked} color="primary">
+                          Yes
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                    <Dialog
+                      open={openUnblockConfirmPopUp}
+                      keepMounted
+                      onClose={handleCloseUnblockConfirmPopUp}
+                    >
+                      <DialogTitle>Unblock this user?</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Do you really want you unblock this user?
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          onClick={handleCloseUnblockConfirmPopUp}
+                          color="primary"
+                        >
+                          No
+                        </Button>
+                        <Button onClick={unblockedClicked} color="primary">
                           Yes
                         </Button>
                       </DialogActions>
