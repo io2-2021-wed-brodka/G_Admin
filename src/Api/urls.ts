@@ -4,3 +4,5 @@ export const block_station_url = station_url + "blocked/";
 export const bikes_url = BASE_URL + "bikes/";
 export const login_url = BASE_URL + "login/";
 export const logout_url = BASE_URL + "logout/";
+export const users_url = BASE_URL + "users/";
+export const block_user_url = users_url + "blocked/";

@@ -11,6 +11,7 @@ import StationListPage from './Pages/stationList'
 import bicycleWallpaper from './Resources/bikeWP.jpg';
 import { AdminLoginPage } from "./Pages/adminLogin";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
+import { UserListPage } from "./Pages/userList";
   
   export default function App() {
     return (
@@ -25,6 +26,9 @@ import { ProtectedRoute } from "./Pages/ProtectedRoute";
                         </ProtectedRoute>
                         <ProtectedRoute path="/stations">
                             <StationListPage/>
+                        </ProtectedRoute>
+                        <ProtectedRoute path="/users">
+                            <UserListPage/>
                         </ProtectedRoute>
                         <Route path="/login">
                             <AdminLoginPage/>

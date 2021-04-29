@@ -12,7 +12,7 @@ import {
     InputLabel,
     ListItem,
     ListItemText,
-    ListSubheader
+    ListSubheader,
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import AddIcon from '@material-ui/icons/Add';

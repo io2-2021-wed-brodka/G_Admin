@@ -85,7 +85,7 @@ const BikeListPage = () => {
             <List className={classes.ListStyle} subheader={<li/>}>
                 <li className={classes.listSection}>
                     <ul className={classes.ul}>
-                        <ListSubheader className={classes.listItemStyle}>
+                        <ListSubheader className={classes.listSubheaderStyle}>
                             <Box display="flex" flexDirection="row" p={1} m={1} alignSelf="center"
                                  style={{width: '90%'}}>
                                 <Box p={1} m={1}>

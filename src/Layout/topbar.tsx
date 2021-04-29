@@ -11,6 +11,7 @@ import {Link} from 'react-router-dom'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { postLogout } from "../Api/adminLoginApi";
+import PeopleIcon from '@material-ui/icons/People';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -70,6 +71,8 @@ export const TopBar: React.FC = () => {
                                     component={Link} to="/bikes"> Bicycles </Button>
                             <Button color="inherit" startIcon={<LocalParkingIcon/>} className={classes.title}
                                     component={Link} to="/stations"> Stations </Button>
+                             <Button color="inherit" startIcon={<PeopleIcon/>} className={classes.title}
+                                    component={Link} to="/users"> Users </Button>
                             </div>
                             <div>
                             <Button color="inherit" startIcon={<ExitToAppIcon/>} className={classes.title}

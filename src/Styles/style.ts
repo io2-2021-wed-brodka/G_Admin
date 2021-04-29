@@ -83,7 +83,7 @@ createStyles({
         display: 'flex',
         flexDirection: 'column'
     },
-    listItemStyle:{
+    listSubheaderStyle:{
         backgroundColor: '#4E4E50',
         color: 'white',
         display: 'flex',
@@ -97,6 +97,15 @@ createStyles({
         variant: 'contained',
         margin: '5px'
     },
+    listItemStyle: {
+        backgroundColor: '#69696e',
+        color: 'white',
+        display: 'flex',
+        height: '50px',
+        marginBottom: '5px',
+        marginTop: '5px',
+        borderRadius: '15px',
+    }
 }),
 );
 
