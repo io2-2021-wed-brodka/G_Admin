@@ -22,7 +22,7 @@ import {
   getUsers,
   unblockUser,
   User,
-} from "../Api/UserApi";
+} from "../Api/userApi";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 export const UserListPage = () => {
   const classes = useStyles();
