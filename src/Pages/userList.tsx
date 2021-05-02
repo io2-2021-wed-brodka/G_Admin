@@ -17,12 +17,12 @@ import {
 import Box from "@material-ui/core/Box";
 import { useStyles } from "../Styles/style";
 import {
-  blockUser,
+  blockUser, getActiveUsers,
   getBlockedUsers,
   getUsers,
   unblockUser,
   User,
-} from "../Api/userApi";
+} from "../Api/UserApi";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 export const UserListPage = () => {
   const classes = useStyles();
@@ -38,13 +38,8 @@ export const UserListPage = () => {
   const [viewBlockedUsers, setViewBlockedUsers] = useState<boolean>(false);
   useEffect(() => {
     !viewBlockedUsers
-      ? getUsers().then((r) => {
-          if (r.isError) {
-            alert("Error");
-            return;
-          }
-          setUserList(r.data?.users || []);
-          console.log(r.data);
+      ? getActiveUsers().then((users) => {
+          setUserList(users.users || []);
         })
       : getBlockedUsers().then((r) => {
           if (r.isError) {
