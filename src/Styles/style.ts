@@ -109,6 +109,13 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginTop: "5px",
       borderRadius: "15px",
     },
+    listBox: {
+      display: "flex",
+      flexDirection: "row",
+      padding: theme.spacing(1),
+      margin: theme.spacing(1),
+      alignSelf: "center",
+    },
   })
 );
 

@@ -79,11 +79,7 @@ export const UserListPage = () => {
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
               <Box
-                display="flex"
-                flexDirection="row"
-                p={1}
-                m={1}
-                alignSelf="center"
+                className={classes.listBox}
                 style={{ width: "75%" }}
               >
                 <Box p={1} m={1}>
@@ -105,11 +101,7 @@ export const UserListPage = () => {
                     onClick={() => handleUserListItemClick(index)}
                   >
                     <Box
-                      display="flex"
-                      flexDirection="row"
-                      p={1}
-                      m={1}
-                      alignSelf="center"
+                      className={classes.listBox}
                       style={{ width: "90%" }}
                     >
                       <Box p={2} m={1}>
@@ -141,7 +133,7 @@ export const UserListPage = () => {
                       <DialogTitle>Block this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-                          Do you really want you block this user?
+                          Do you really want to block this user?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
@@ -164,7 +156,7 @@ export const UserListPage = () => {
                       <DialogTitle>Unblock this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-                          Do you really want you unblock this user?
+                          Do you really want to unblock this user?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>

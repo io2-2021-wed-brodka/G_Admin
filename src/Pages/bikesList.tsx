@@ -86,11 +86,7 @@ const BikeListPage = () => {
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
               <Box
-                display="flex"
-                flexDirection="row"
-                p={1}
-                m={1}
-                alignSelf="center"
+                className={classes.listBox}
                 style={{ width: "90%" }}
               >
                 <Box p={1} m={1}>
@@ -161,11 +157,7 @@ const BikeListPage = () => {
                     onClick={() => handleBikeListItemClick(index)}
                   >
                     <Box
-                      display="flex"
-                      flexDirection="row"
-                      p={1}
-                      m={1}
-                      alignSelf="center"
+                      className={classes.listBox}
                       style={{ width: "90%" }}
                     >
                       <Box p={2} m={1}>

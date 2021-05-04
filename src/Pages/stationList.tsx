@@ -13,6 +13,7 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
+  Switch,
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import AddIcon from "@material-ui/icons/Add";
@@ -20,11 +21,14 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import {
-  blockBikeStation,
+  blockStation,
+  unblockStation,
   deleteBikeStation,
   getStations,
   postStation,
   Station,
+  getActiveStations,
+  getBlockedStations,
 } from "../Api/bikeStationApi";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";
@@ -36,12 +40,15 @@ function StationListPage() {
   const [openError, setOpenError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [newStationName, setName] = React.useState<string>("Generic Location");
-  const [list, setList] = React.useState<Station[]>([]);
+  const [stationList, setStationList] = React.useState<Station[]>([]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [openDeleteConfirmPopUp, setDeleteConfirmPopUp] = useState<boolean>(
     false
   );
   const [openBlockConfirmPopUp, setBlockConfirmPopUp] = useState<boolean>(
+    false
+  );
+  const [openUnblockConfirmPopUp, setUnblockConfirmPopUp] = useState<boolean>(
     false
   );
   const [getStationTrigger, setStationTrigger] = React.useState(true);
@@ -60,12 +67,16 @@ function StationListPage() {
     setName(location);
   };
   const blockClicked = async () => {
-    await blockBikeStation(list[selectedIndex].id.toString());
+    await blockStation(stationList[selectedIndex].id.toString());
     setBlockConfirmPopUp(false);
     setStationTrigger(!getStationTrigger);
   };
+  const unblockedClicked = async () => {
+    await unblockStation(stationList[selectedIndex].id);
+    setUnblockConfirmPopUp(false);
+  };
   const deleteClicked = async () => {
-    await deleteBikeStation(list[selectedIndex].id.toString())
+    await deleteBikeStation(stationList[selectedIndex].id.toString())
       .then((response) => {
         setDeleteConfirmPopUp(false);
         setStationTrigger(!getStationTrigger);
@@ -79,6 +90,9 @@ function StationListPage() {
   const handleCloseBlockConfirmPopUp = () => {
     setBlockConfirmPopUp(false);
   };
+  const handleCloseUnblockConfirmPopUp = () => {
+    setUnblockConfirmPopUp(false);
+  };
   const handleCloseDeleteConfirmPopUp = () => {
     setDeleteConfirmPopUp(false);
   };
@@ -88,32 +102,35 @@ function StationListPage() {
   const handleCloseError = () => {
     setOpenError(false);
   };
+  const [viewBlockedStations, setViewBlockedStations] = useState<boolean>(false);
   useEffect(() => {
-    getStations().then((r) => {
-      if (r.isError) {
-        alert("Error");
-        return;
-      }
-      setList(r.data?.stations || []);
-      console.log(list);
-    });
-  }, [getStationTrigger]);
+    !viewBlockedStations
+      ? getActiveStations().then((r) => {
+          if (r.isError) {
+            alert("Error");
+            return;
+          }
+          setStationList(r.data?.stations || []);
+          console.log(stationList);
+        })
+      : getBlockedStations().then((r) => {
+        if (r.isError) {
+          alert("Error");
+          return;
+        }
+        setStationList(r.data?.stations || []);
+        console.log(stationList);
+      });
+  }, [getStationTrigger, viewBlockedStations]);
   return (
-    <div
-      className="App"
-      style={{ height: "91vh", display: "flex", flexDirection: "column" }}
-    >
+    <div className={classes.generalContainer}>
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listItemStyle}>
               <Box
-                display="flex"
-                flexDirection="row"
-                p={1}
-                m={1}
-                alignSelf="center"
-                style={{ width: "90%" }}
+                className={classes.listBox}
+                style={{ width: "50%" }}
               >
                 <Box p={0} m={1} style={{ marginRight: "30px" }}>
                   State
@@ -128,7 +145,7 @@ function StationListPage() {
               <Button
                 startIcon={<AddIcon />}
                 variant="contained"
-                style={{ margin: "5px" }}
+                style={{ margin: "5px", marginRight: "40px" }}
                 onClick={handleClickOpen}
               >
                 new station
@@ -171,28 +188,22 @@ function StationListPage() {
                   </Button>
                 </DialogActions>
               </Dialog>
+              <Switch
+                checked={viewBlockedStations}
+                onChange={() => setViewBlockedStations(!viewBlockedStations)}
+                edge="start"
+              />
+              Display only blocked stations?
             </ListSubheader>
-            {list.map((station, index) => {
+            {stationList.map((station, index) => {
               return (
-                <div key={station.id}>
+                <li key={station.id}>
                   <ListItem
-                    style={{
-                      backgroundColor: "#69696e",
-                      color: "white",
-                      display: "flex",
-                      height: "50px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                      borderRadius: "15px",
-                    }}
+                    className={classes.listItemStyle}
                     onClick={() => handleListItemClick(index)}
                   >
                     <Box
-                      display="flex"
-                      flexDirection="row"
-                      p={1}
-                      m={1}
-                      alignSelf="center"
+                      className={classes.listBox}
                       style={{ width: "90%" }}
                     >
                       <Box p={0} m={1}>
@@ -206,26 +217,38 @@ function StationListPage() {
                       </Box>
                     </Box>
                     <ThemeProvider theme={themeWarning}>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.blockButton}
-                        onClick={() => setBlockConfirmPopUp(true)}
-                        startIcon={<ErrorOutlineIcon />}
-                      >
-                        {" "}
-                        BLOCK
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.deleteButton}
-                        onClick={() => setDeleteConfirmPopUp(true)}
-                        startIcon={<DeleteOutlineSharpIcon />}
-                      >
-                        {" "}
-                        DELETE
-                      </Button>
+                      {!viewBlockedStations ? (
+                        <Button
+                          variant="contained"
+                          className={classes.blockButton}
+                          onClick={() => setBlockConfirmPopUp(true)}
+                          startIcon={<ErrorOutlineIcon />}
+                        >
+                          {" "}
+                          Block
+                        </Button>
+                      ) : (
+                        <React.Fragment>
+                          <Button
+                            variant="contained"
+                            className={classes.blockButton}
+                            onClick={() => setUnblockConfirmPopUp(true)}
+                            startIcon={<ErrorOutlineIcon />}
+                          >
+                            {" "}
+                            Unblock
+                          </Button>
+                          <Button
+                            variant="contained"
+                            className={classes.deleteButton}
+                            onClick={() => setDeleteConfirmPopUp(true)}
+                            startIcon={<DeleteOutlineSharpIcon />}
+                          >
+                            {" "}
+                            Delete
+                          </Button>
+                        </React.Fragment>
+                      )}
                       <Dialog
                         open={openBlockConfirmPopUp}
                         keepMounted
@@ -234,7 +257,7 @@ function StationListPage() {
                         <DialogTitle>{"Block this station?"}</DialogTitle>
                         <DialogContent>
                           <DialogContentText>
-                            Do you really want you block this station?
+                            Do you really want to block this station?
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
@@ -272,9 +295,32 @@ function StationListPage() {
                           </Button>
                         </DialogActions>
                       </Dialog>
+                      <Dialog
+                        open={openUnblockConfirmPopUp}
+                        keepMounted
+                        onClose={handleCloseUnblockConfirmPopUp}
+                      >
+                        <DialogTitle>Unblock this station?</DialogTitle>
+                        <DialogContent>
+                          <DialogContentText>
+                            Do you really want to unblock this station?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={handleCloseUnblockConfirmPopUp}
+                            color="primary"
+                          >
+                            No
+                          </Button>
+                          <Button onClick={unblockedClicked} color="primary">
+                            Yes
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                     </ThemeProvider>
                   </ListItem>
-                </div>
+                </li>
               );
             })}
           </ul>
