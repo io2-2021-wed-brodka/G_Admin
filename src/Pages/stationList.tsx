@@ -193,7 +193,7 @@ function StationListPage() {
                 onChange={() => setViewBlockedStations(!viewBlockedStations)}
                 edge="start"
               />
-              Display only blocked stations?
+              Display blocked stations
             </ListSubheader>
             {stationList.map((station, index) => {
               return (

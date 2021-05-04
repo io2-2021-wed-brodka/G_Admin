@@ -86,7 +86,7 @@ export const UserListPage = () => {
                 onChange={() => setViewBlockedUsers(!viewBlockedUsers)}
                 edge="start"
               />
-              Display only blocked users?
+              Display blocked users
             </ListSubheader>
             {userList.map((user, index) => {
               return (
