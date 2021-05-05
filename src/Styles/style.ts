@@ -58,6 +58,15 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginTop: "2%",
       marginBottom: "2%",
     },
+    ListStyleUsersAndTechs: {
+      width: "100%",
+      overflowY: "auto",
+      opacity: "0.92",
+      marginLeft: "10%",
+      marginRight: "10%",
+      marginTop: "2%",
+      marginBottom: "2%",
+    },
     ListFont: {
       color: "white",
     },
@@ -86,6 +95,11 @@ export const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
     },
+    generalContainerUsersAndTechs: {
+      height: "91vh",
+      display: "flex",
+      flexDirection: "row",
+    },
     listSubheaderStyle: {
       backgroundColor: "#4E4E50",
       color: "white",
@@ -109,12 +123,41 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginTop: "5px",
       borderRadius: "15px",
     },
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+      marginLeft: "10px",
+      marginRight: "10px",
+    },
+    toolbar: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
   })
 );
 
 export const themeWarning = createMuiTheme({
   palette: {
     primary: {
+      main: "#950740",
+    },
+  },
+});
+
+export const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: "#4E4E50",
+    },
+    primary: {
+      main: "#1A1A1D",
+    },
+    warning: {
       main: "#950740",
     },
   },

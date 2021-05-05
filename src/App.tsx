@@ -36,6 +36,9 @@ export default function App() {
             <ProtectedRoute path="/users">
               <UserListPage />
             </ProtectedRoute>
+            <ProtectedRoute path="/techs">
+              <UserListPage />
+            </ProtectedRoute>
             <Route path="/login">
               <AdminLoginPage />
             </Route>
