@@ -47,7 +47,6 @@ export const UserListPage = () => {
             return;
           }
           setUserList(r.data?.users || []);
-          console.log(r.data);
         });
   }, [getUsersTrigger, viewBlockedUsers]);
   const handleUserListItemClick = (index: number) => {

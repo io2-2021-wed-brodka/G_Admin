@@ -111,7 +111,6 @@ function StationListPage() {
             return;
           }
           setStationList(r.data?.stations || []);
-          console.log(stationList);
         })
       : getBlockedStations().then((r) => {
         if (r.isError) {
@@ -119,7 +118,6 @@ function StationListPage() {
           return;
         }
         setStationList(r.data?.stations || []);
-        console.log(stationList);
       });
   }, [getStationTrigger, viewBlockedStations]);
   return (
