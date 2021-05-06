@@ -47,7 +47,6 @@ export const UserListPage = () => {
             return;
           }
           setUserList(r.data?.users || []);
-          console.log(r.data);
         });
   }, [getUsersTrigger, viewBlockedUsers]);
   const handleUserListItemClick = (index: number) => {
@@ -74,11 +73,7 @@ export const UserListPage = () => {
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
               <Box
-                display="flex"
-                flexDirection="row"
-                p={1}
-                m={1}
-                alignSelf="center"
+                className={classes.listBox}
                 style={{ width: "75%" }}
               >
                 <Box p={1} m={1}>
@@ -90,7 +85,7 @@ export const UserListPage = () => {
                 onChange={() => setViewBlockedUsers(!viewBlockedUsers)}
                 edge="start"
               />
-              Display only blocked users?
+              Display blocked users
             </ListSubheader>
             {userList.map((user, index) => {
               return (
@@ -100,11 +95,7 @@ export const UserListPage = () => {
                     onClick={() => handleUserListItemClick(index)}
                   >
                     <Box
-                      display="flex"
-                      flexDirection="row"
-                      p={1}
-                      m={1}
-                      alignSelf="center"
+                      className={classes.listBox}
                       style={{ width: "90%" }}
                     >
                       <Box p={2} m={1}>
@@ -136,7 +127,7 @@ export const UserListPage = () => {
                       <DialogTitle>Block this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-                          Do you really want you block this user?
+                          Do you really want to block this user?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
@@ -159,7 +150,7 @@ export const UserListPage = () => {
                       <DialogTitle>Unblock this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-                          Do you really want you unblock this user?
+                          Do you really want to unblock this user?
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
