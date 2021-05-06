@@ -236,7 +236,7 @@ function StationListPage() {
                             {" "}
                             Unblock
                           </Button>
-                          <Button
+                          { station.activeBikesCount != 0 ? null : <Button
                             variant="contained"
                             className={classes.deleteButton}
                             onClick={() => setDeleteConfirmPopUp(true)}
@@ -244,7 +244,7 @@ function StationListPage() {
                           >
                             {" "}
                             Delete
-                          </Button>
+                          </Button>}
                         </React.Fragment>
                       )}
                       <Dialog
