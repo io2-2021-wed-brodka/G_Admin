@@ -47,7 +47,6 @@ export const unblockStation = async (stationID: string) => {
     .then((r) => axiosHandleResponse(r));
 };
 
-
 export const deleteBikeStation = async (stationID: string) => {
   let url = `${station_url}${stationID}/`;
   return axios.delete(url, getRequestConfig());

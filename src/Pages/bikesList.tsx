@@ -85,10 +85,7 @@ const BikeListPage = () => {
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
-              <Box
-                className={classes.listBox}
-                style={{ width: "90%" }}
-              >
+              <Box className={classes.listBox} style={{ width: "90%" }}>
                 <Box p={1} m={1}>
                   State
                 </Box>
@@ -156,10 +153,7 @@ const BikeListPage = () => {
                     }}
                     onClick={() => handleBikeListItemClick(index)}
                   >
-                    <Box
-                      className={classes.listBox}
-                      style={{ width: "90%" }}
-                    >
+                    <Box className={classes.listBox} style={{ width: "90%" }}>
                       <Box p={2} m={1}>
                         <ListItemText primary={bike.status} />
                       </Box>

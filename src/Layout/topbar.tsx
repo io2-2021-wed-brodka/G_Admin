@@ -106,7 +106,7 @@ export const TopBar: React.FC = () => {
                   to="/users"
                 >
                   {" "}
-                  Users{" "}
+                  Users & Techs{" "}
                 </Button>
               </div>
               <div>

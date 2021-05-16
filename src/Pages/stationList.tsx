@@ -102,7 +102,9 @@ function StationListPage() {
   const handleCloseError = () => {
     setOpenError(false);
   };
-  const [viewBlockedStations, setViewBlockedStations] = useState<boolean>(false);
+  const [viewBlockedStations, setViewBlockedStations] = useState<boolean>(
+    false
+  );
   useEffect(() => {
     !viewBlockedStations
       ? getActiveStations().then((r) => {
@@ -113,12 +115,12 @@ function StationListPage() {
           setStationList(r.data?.stations || []);
         })
       : getBlockedStations().then((r) => {
-        if (r.isError) {
-          alert("Error");
-          return;
-        }
-        setStationList(r.data?.stations || []);
-      });
+          if (r.isError) {
+            alert("Error");
+            return;
+          }
+          setStationList(r.data?.stations || []);
+        });
   }, [getStationTrigger, viewBlockedStations]);
   return (
     <div className={classes.generalContainer}>
@@ -126,10 +128,7 @@ function StationListPage() {
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listItemStyle}>
-              <Box
-                className={classes.listBox}
-                style={{ width: "50%" }}
-              >
+              <Box className={classes.listBox} style={{ width: "50%" }}>
                 <Box p={0} m={1} style={{ marginRight: "30px" }}>
                   State
                 </Box>
@@ -200,10 +199,7 @@ function StationListPage() {
                     className={classes.listItemStyle}
                     onClick={() => handleListItemClick(index)}
                   >
-                    <Box
-                      className={classes.listBox}
-                      style={{ width: "90%" }}
-                    >
+                    <Box className={classes.listBox} style={{ width: "90%" }}>
                       <Box p={0} m={1}>
                         <ListItemText primary={station.state} />
                       </Box>
@@ -236,15 +232,17 @@ function StationListPage() {
                             {" "}
                             Unblock
                           </Button>
-                          { station.activeBikesCount != 0 ? null : <Button
-                            variant="contained"
-                            className={classes.deleteButton}
-                            onClick={() => setDeleteConfirmPopUp(true)}
-                            startIcon={<DeleteOutlineSharpIcon />}
-                          >
-                            {" "}
-                            Delete
-                          </Button>}
+                          {station.activeBikesCount != 0 ? null : (
+                            <Button
+                              variant="contained"
+                              className={classes.deleteButton}
+                              onClick={() => setDeleteConfirmPopUp(true)}
+                              startIcon={<DeleteOutlineSharpIcon />}
+                            >
+                              {" "}
+                              Delete
+                            </Button>
+                          )}
                         </React.Fragment>
                       )}
                       <Dialog
