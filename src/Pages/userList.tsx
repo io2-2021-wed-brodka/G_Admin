@@ -57,12 +57,8 @@ export const UserListPage = () => {
   );
   useEffect(() => {
     !viewBlockedUsers
-      ? getUsers().then((r) => {
-          if (r.isError) {
-            alert("Error");
-            return;
-          }
-          setUserList(r.data?.users || []);
+      ? getActiveUsers().then((users) => {
+          setUserList(users.users || []);
         })
       : getBlockedUsers().then((r) => {
           if (r.isError) {
