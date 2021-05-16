@@ -28,7 +28,7 @@ export const addTech = async (newTech: NewTech) => {
   axios
     .post(
       techs_url,
-      { name: newTech.name, password: newTech.passworld },
+      { name: newTech.name, password: newTech.password },
       getRequestConfig()
     )
     .then((r) => axiosHandleResponse(r));
