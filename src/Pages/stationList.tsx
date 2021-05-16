@@ -13,7 +13,10 @@ import {
   ListItem,
   ListItemText,
   ListSubheader,
+<<<<<<< HEAD
   Switch,
+=======
+>>>>>>> feat/row-94-tech-crud
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import AddIcon from "@material-ui/icons/Add";
@@ -21,14 +24,21 @@ import Dialog from "@material-ui/core/Dialog/Dialog";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import {
+<<<<<<< HEAD
   blockStation,
   unblockStation,
+=======
+  blockBikeStation,
+>>>>>>> feat/row-94-tech-crud
   deleteBikeStation,
   getStations,
   postStation,
   Station,
+<<<<<<< HEAD
   getActiveStations,
   getBlockedStations,
+=======
+>>>>>>> feat/row-94-tech-crud
 } from "../Api/bikeStationApi";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import DeleteOutlineSharpIcon from "@material-ui/icons/DeleteOutlineSharp";

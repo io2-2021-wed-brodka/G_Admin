@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { block_station_url, active_station_url, station_url } from "./urls";
+=======
+import { block_station_url, station_url } from "./urls";
+>>>>>>> feat/row-94-tech-crud
 import {
   axiosHandleResponse,
   getRequestConfig,
@@ -33,6 +37,7 @@ export const getStations = async (): Promise<IApiResponse<Stations>> => {
     .get(station_url, getRequestConfig())
     .then((r) => axiosHandleResponse(r));
 };
+<<<<<<< HEAD
 
 export const blockStation = async (stationID: string) => {
   axios
@@ -47,11 +52,20 @@ export const unblockStation = async (stationID: string) => {
     .then((r) => axiosHandleResponse(r));
 };
 
+=======
+
+export const blockBikeStation = async (stationID: string) => {
+  axios
+    .post(block_station_url, { id: stationID }, getRequestConfig())
+    .then((r) => axiosHandleResponse(r));
+};
+>>>>>>> feat/row-94-tech-crud
 
 export const deleteBikeStation = async (stationID: string) => {
   let url = `${station_url}${stationID}/`;
   return axios.delete(url, getRequestConfig());
 };
+<<<<<<< HEAD
 
 export const getActiveStations = async (): Promise<IApiResponse<Stations>> => {
   return axios
@@ -64,3 +78,5 @@ export const getBlockedStations = async (): Promise<IApiResponse<Stations>> => {
     .get(block_station_url, getRequestConfig())
     .then((r) => axiosHandleResponse(r));
 };
+=======
+>>>>>>> feat/row-94-tech-crud
