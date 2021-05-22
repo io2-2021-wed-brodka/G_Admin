@@ -15,7 +15,7 @@ export interface Techs {
 }
 export interface NewTech {
   name: string;
-  passworld: string;
+  password: string;
 }
 
 export const getTechs = async (): Promise<IApiResponse<Techs>> => {
