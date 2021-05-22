@@ -113,7 +113,7 @@ export const UserListPage = () => {
     setDeleteConfirmPopUp(false);
   };
   const addTechClicked = async () => {
-    await addTech({ name: newTechName, passworld: newTechPassword });
+    await addTech({ name: newTechName, password: newTechPassword });
     setAddTechConfirmPopUp(false);
   };
   const handleChangeNameTech = (nameTech: string) => {
