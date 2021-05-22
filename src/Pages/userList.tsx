@@ -305,11 +305,11 @@ export const UserListPage = () => {
                       </Box>
                     </Box>
                     <Button
-                      className={classes.blockButton}
+                      className={classes.deleteButton}
                       startIcon={<ErrorOutlineIcon />}
                       onClick={() => setDeleteConfirmPopUp(true)}
                     >
-                      Block
+                      Delete
                     </Button>
                     <Dialog
                       open={openDeleteTechConfirmPopUp}
