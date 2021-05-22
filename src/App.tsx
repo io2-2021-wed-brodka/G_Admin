@@ -36,12 +36,9 @@ export default function App() {
             <ProtectedRoute path="/users">
               <UserListPage />
             </ProtectedRoute>
-<<<<<<< HEAD
-=======
             <ProtectedRoute path="/techs">
               <UserListPage />
             </ProtectedRoute>
->>>>>>> feat/row-94-tech-crud
             <Route path="/login">
               <AdminLoginPage />
             </Route>

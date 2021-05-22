@@ -13,33 +13,21 @@ import {
   DialogTitle,
   Dialog,
   Switch,
-<<<<<<< HEAD
-=======
   FormControl,
   Input,
   InputLabel,
->>>>>>> feat/row-94-tech-crud
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { useStyles } from "../Styles/style";
 import {
-<<<<<<< HEAD
-  blockUser, getActiveUsers,
-=======
   blockUser,
->>>>>>> feat/row-94-tech-crud
+  getActiveUsers,
   getBlockedUsers,
   getUsers,
   unblockUser,
   User,
 } from "../Api/userApi";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-<<<<<<< HEAD
-export const UserListPage = () => {
-  const classes = useStyles();
-  const [userList, setUserList] = React.useState<User[]>([]);
-  const [selectedIndex, setSelectedIndex] = React.useState(-1);
-=======
 import AddIcon from "@material-ui/icons/Add";
 import { addTech, deleteTech, getTechs } from "../Api/techApi";
 export const UserListPage = () => {
@@ -48,7 +36,6 @@ export const UserListPage = () => {
   const [techList, setTechList] = React.useState<User[]>([]);
   const [selectedIndexUsers, setSelectedIndexUsers] = React.useState(-1);
   const [selectedIndexTechs, setSelectedIndexTechs] = React.useState(-1);
->>>>>>> feat/row-94-tech-crud
   const [getUsersTrigger, setUsersTrigger] = React.useState(true);
   const [openBlockConfirmPopUp, setBlockConfirmPopUp] = useState<boolean>(
     false
@@ -57,12 +44,6 @@ export const UserListPage = () => {
     false
   );
   const [viewBlockedUsers, setViewBlockedUsers] = useState<boolean>(false);
-<<<<<<< HEAD
-  useEffect(() => {
-    !viewBlockedUsers
-      ? getActiveUsers().then((users) => {
-          setUserList(users.users || []);
-=======
   const [getTechsTrigger, setTechsTrigger] = React.useState(true);
   const [newTechName, setTechName] = React.useState<string>("Generic Name");
   const [newTechPassword, setTechPassword] = React.useState<string>(
@@ -82,7 +63,6 @@ export const UserListPage = () => {
             return;
           }
           setUserList(r.data?.users || []);
->>>>>>> feat/row-94-tech-crud
         })
       : getBlockedUsers().then((r) => {
           if (r.isError) {
@@ -92,10 +72,6 @@ export const UserListPage = () => {
           setUserList(r.data?.users || []);
         });
   }, [getUsersTrigger, viewBlockedUsers]);
-<<<<<<< HEAD
-  const handleUserListItemClick = (index: number) => {
-    setSelectedIndex(index);
-=======
   useEffect(() => {
     getTechs().then((r) => {
       if (r.isError) {
@@ -107,7 +83,6 @@ export const UserListPage = () => {
   }, [getTechsTrigger]);
   const handleUserListItemClick = (index: number) => {
     setSelectedIndexUsers(index);
->>>>>>> feat/row-94-tech-crud
   };
   const handleCloseBlockConfirmPopUp = () => {
     setBlockConfirmPopUp(false);
@@ -116,18 +91,6 @@ export const UserListPage = () => {
     setUnblockConfirmPopUp(false);
   };
   const blockClicked = async () => {
-<<<<<<< HEAD
-    await blockUser(userList[selectedIndex].id);
-    setBlockConfirmPopUp(false);
-  };
-  const unblockedClicked = async () => {
-    await unblockUser(userList[selectedIndex].id);
-    setUnblockConfirmPopUp(false);
-  };
-  return (
-    <div className={classes.generalContainer}>
-      <List className={classes.ListStyle} subheader={<li />}>
-=======
     await blockUser(userList[selectedIndexUsers].id);
     setBlockConfirmPopUp(false);
   };
@@ -162,27 +125,12 @@ export const UserListPage = () => {
   return (
     <div className={classes.generalContainerUsersAndTechs}>
       <List className={classes.ListStyleUsersAndTechs} subheader={<li />}>
->>>>>>> feat/row-94-tech-crud
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
-              <Box
-<<<<<<< HEAD
-                className={classes.listBox}
-                style={{ width: "75%" }}
-              >
+              <Box className={classes.listBox} style={{ width: "75%" }}>
                 <Box p={1} m={1}>
                   Name
-=======
-                display="flex"
-                flexDirection="row"
-                p={1}
-                m={1}
-                alignSelf="center"
-              >
-                <Box p={1} m={1}>
-                  User name
->>>>>>> feat/row-94-tech-crud
                 </Box>
               </Box>
               <Switch
@@ -190,11 +138,7 @@ export const UserListPage = () => {
                 onChange={() => setViewBlockedUsers(!viewBlockedUsers)}
                 edge="start"
               />
-<<<<<<< HEAD
               Display blocked users
-=======
-              Only blocked?
->>>>>>> feat/row-94-tech-crud
             </ListSubheader>
             {userList.map((user, index) => {
               return (
@@ -203,19 +147,7 @@ export const UserListPage = () => {
                     className={classes.listItemStyle}
                     onClick={() => handleUserListItemClick(index)}
                   >
-                    <Box
-<<<<<<< HEAD
-                      className={classes.listBox}
-                      style={{ width: "90%" }}
-=======
-                      display="flex"
-                      flexDirection="row"
-                      p={1}
-                      m={1}
-                      alignSelf="center"
-                      style={{ width: "70%" }}
->>>>>>> feat/row-94-tech-crud
-                    >
+                    <Box className={classes.listBox} style={{ width: "90%" }}>
                       <Box p={2} m={1}>
                         <ListItemText primary={user.name} />
                       </Box>
@@ -245,11 +177,7 @@ export const UserListPage = () => {
                       <DialogTitle>Block this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-<<<<<<< HEAD
                           Do you really want to block this user?
-=======
-                          Do you really want you block this user?
->>>>>>> feat/row-94-tech-crud
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
@@ -272,11 +200,7 @@ export const UserListPage = () => {
                       <DialogTitle>Unblock this user?</DialogTitle>
                       <DialogContent>
                         <DialogContentText>
-<<<<<<< HEAD
                           Do you really want to unblock this user?
-=======
-                          Do you really want you unblock this user?
->>>>>>> feat/row-94-tech-crud
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
@@ -298,8 +222,6 @@ export const UserListPage = () => {
           </ul>
         </li>
       </List>
-<<<<<<< HEAD
-=======
       <List className={classes.ListStyleUsersAndTechs} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
@@ -419,7 +341,6 @@ export const UserListPage = () => {
           </ul>
         </li>
       </List>
->>>>>>> feat/row-94-tech-crud
     </div>
   );
 };

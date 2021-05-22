@@ -7,7 +7,4 @@ export const login_url = BASE_URL + "login/";
 export const logout_url = BASE_URL + "logout/";
 export const users_url = BASE_URL + "users/";
 export const block_user_url = users_url + "blocked/";
-<<<<<<< HEAD
-=======
 export const techs_url = BASE_URL + "tech/";
->>>>>>> feat/row-94-tech-crud

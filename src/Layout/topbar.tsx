@@ -106,11 +106,7 @@ export const TopBar: React.FC = () => {
                   to="/users"
                 >
                   {" "}
-<<<<<<< HEAD
-                  Users{" "}
-=======
                   Users & Techs{" "}
->>>>>>> feat/row-94-tech-crud
                 </Button>
               </div>
               <div>
