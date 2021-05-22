@@ -243,7 +243,7 @@ export const UserListPage = () => {
                 variant="contained"
                 style={{ margin: "5px" }}
                 onClick={() => {
-                  setAddTechConfirmPopUp(false);
+                  setAddTechConfirmPopUp(true);
                 }}
               >
                 new tech
@@ -257,13 +257,13 @@ export const UserListPage = () => {
                 <DialogContent>
                   <form className={classes.container}>
                     <FormControl className={classes.formControl}>
-                      <InputLabel>Name</InputLabel>
+                      Name
                       <Input
                         onChange={(event: any) =>
                           handleChangeNameTech(event.target.value)
                         }
                       />
-                      <InputLabel>Password</InputLabel>
+                      Password
                       <Input
                         onChange={(event: any) =>
                           handleChangePasswordTech(event.target.value)
