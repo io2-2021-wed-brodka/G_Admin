@@ -29,7 +29,7 @@ export const postStation = async (
   return axios
     .post(
       station_url,
-      { name: stationName, capacity: stationBikeLimit },
+      { name: stationName, bikeLimit: stationBikeLimit },
       getRequestConfig()
     )
     .then((r) => axiosHandleResponse(r));

@@ -1,4 +1,4 @@
-export const BASE_URL = "https://127.0.0.1:8000/";
+export const BASE_URL = "https://127.0.0.1:8080/";
 export const station_url = BASE_URL + "stations/";
 export const block_station_url = station_url + "blocked/";
 export const active_station_url = station_url + "active/";
