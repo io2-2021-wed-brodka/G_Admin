@@ -42,6 +42,7 @@ function StationListPage() {
   const [newStationName, setName] = React.useState<string>("Generic Location");
   const [stationList, setStationList] = React.useState<Station[]>([]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [newStationBikeLimit, setNewStationBikeLimit] = React.useState(10);
   const [openDeleteConfirmPopUp, setDeleteConfirmPopUp] = useState<boolean>(
     false
   );
@@ -59,12 +60,22 @@ function StationListPage() {
     setOpen(false);
   };
   const handleAddStation = async () => {
-    postStation(newStationName).then((r) => {});
+    postStation(newStationName, newStationBikeLimit).then((r) => {});
     setOpen(false);
     setStationTrigger(!getStationTrigger);
   };
   const handleChangeName = (location: string) => {
     setName(location);
+  };
+  const handleChangeBikeLimit = (bikeLimit: number) => {
+    if (bikeLimit > 100) {
+      alert("Maximum 100 bikes in station");
+      bikeLimit = 100;
+    } else if (bikeLimit < 1) {
+      alert("Minimum 1 bike in station");
+      bikeLimit = 1;
+    }
+    setNewStationBikeLimit(bikeLimit);
   };
   const blockClicked = async () => {
     await blockStation(stationList[selectedIndex].id.toString());
@@ -127,7 +138,7 @@ function StationListPage() {
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
-            <ListSubheader className={classes.listItemStyle}>
+            <ListSubheader className={classes.listSubheaderStyle}>
               <Box className={classes.listBox} style={{ width: "50%" }}>
                 <Box p={0} m={1} style={{ marginRight: "30px" }}>
                   State
@@ -148,7 +159,7 @@ function StationListPage() {
                 new station
               </Button>
               <Dialog disableBackdropClick open={open} onClose={handleClose}>
-                <DialogTitle>Fill the form</DialogTitle>
+                <DialogTitle>New station form</DialogTitle>
                 <DialogContent>
                   <form className={classes.container}>
                     <FormControl className={classes.formControl}>
@@ -158,6 +169,17 @@ function StationListPage() {
                           handleChangeName(event.target.value)
                         }
                       />
+                      Bike limit:
+                      <input
+                        type="number"
+                        min="1"
+                        max="100"
+                        step="1"
+                        value={newStationBikeLimit}
+                        onChange={(event: any) =>
+                          handleChangeBikeLimit(event.target.value)
+                        }
+                      ></input>
                     </FormControl>
                   </form>
                 </DialogContent>

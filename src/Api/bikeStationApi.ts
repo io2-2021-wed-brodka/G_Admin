@@ -22,9 +22,16 @@ export interface Station {
 interface Stations {
   stations: Station[];
 }
-export const postStation = async (stationName: string) => {
+export const postStation = async (
+  stationName: string,
+  stationBikeLimit: number
+) => {
   return axios
-    .post(station_url, { name: stationName }, getRequestConfig())
+    .post(
+      station_url,
+      { name: stationName, bikeLimit: stationBikeLimit },
+      getRequestConfig()
+    )
     .then((r) => axiosHandleResponse(r));
 };
 

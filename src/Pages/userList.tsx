@@ -57,8 +57,12 @@ export const UserListPage = () => {
   );
   useEffect(() => {
     !viewBlockedUsers
-      ? getActiveUsers().then((users) => {
-          setUserList(users.users || []);
+      ? getUsers().then((r) => {
+          if (r.isError) {
+            alert("Error");
+            return;
+          }
+          setUserList(r.data?.users || []);
         })
       : getBlockedUsers().then((r) => {
           if (r.isError) {
@@ -109,7 +113,7 @@ export const UserListPage = () => {
     setDeleteConfirmPopUp(false);
   };
   const addTechClicked = async () => {
-    await addTech({ name: newTechName, passworld: newTechPassword });
+    await addTech({ name: newTechName, password: newTechPassword });
     setAddTechConfirmPopUp(false);
   };
   const handleChangeNameTech = (nameTech: string) => {
@@ -124,7 +128,7 @@ export const UserListPage = () => {
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
-              <Box className={classes.listBox}>
+              <Box className={classes.listBox} style={{ width: "75%" }}>
                 <Box p={1} m={1}>
                   Name
                 </Box>
