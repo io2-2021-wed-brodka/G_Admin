@@ -11,8 +11,14 @@ const axiosHandleLoginResponse = async <T>(
   response: AxiosResponse
 ): Promise<IApiResponse<T>> => {
   if (response.status >= 200 && response.status < 300) {
-    sessionStorage.setItem("token", response.data.token);
-    window.location.href = "/"; // refresh and redirect to main page
+    // frontend validation (hack) so that you can't login to admin with user/tech credentials
+    if (response.data.role !== "admin") {
+      alert("Bad credentials");
+    }
+    else {
+      sessionStorage.setItem("token", response.data.token);
+      window.location.href = "/"; // refresh and redirect to main page
+    }
     return {
       isError: false,
       responseCode: response.status,
