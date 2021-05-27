@@ -4,25 +4,14 @@ import "./Layout/topbar.tsx";
 import { TopBar } from "./Layout/topbar";
 import BikeListPage from "./Pages/bikesList";
 import StationListPage from "./Pages/stationList";
-import bicycleWallpaper from "./Resources/bikeWP.jpg";
 import { AdminLoginPage } from "./Pages/adminLogin";
 import { ProtectedRoute } from "./Pages/ProtectedRoute";
 import { UserListPage } from "./Pages/userList";
-
+import { useStyles } from "./Styles/style"
 export default function App() {
+  const classes = useStyles();
   return (
-    <div
-      className="App"
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        backgroundImage: `url(${bicycleWallpaper})`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}
-    >
+    <div className={classes.webpageStyle}>
       <Router>
         <div>
           <TopBar />

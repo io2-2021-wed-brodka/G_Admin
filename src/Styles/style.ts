@@ -4,7 +4,7 @@ import {
   Theme,
   createMuiTheme,
 } from "@material-ui/core/styles";
-
+import bicycleWallpaper from '../Resources/bikeWP.jpg';
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formContainer: {
@@ -130,6 +130,15 @@ export const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
       alignSelf: "center",
     },
+    webpageStyle: {
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        width: '100%',
+        backgroundImage: `url(${bicycleWallpaper})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    }
   })
 );
 
