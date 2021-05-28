@@ -24,11 +24,11 @@ export const getTechs = async (): Promise<IApiResponse<Techs>> => {
     .then((r) => axiosHandleResponse(r));
 };
 
-export const addTech = async (newTech: NewTech) => {
+export const addTech = async (name: string, password: string) => {
   axios
     .post(
       techs_url,
-      { name: newTech.name, password: newTech.password },
+      { name: name, password: password },
       getRequestConfig()
     )
     .then((r) => axiosHandleResponse(r));

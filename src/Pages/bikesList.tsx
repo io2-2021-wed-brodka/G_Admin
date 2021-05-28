@@ -84,11 +84,14 @@ const BikeListPage = () => {
   }, [getBikesTrigger]);
   return (
     <div className={classes.generalContainer}>
+      <h1 className={classes.pageTitle}>
+          BIKES
+      </h1>
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
-              <Box className={classes.listBox} style={{ width: "90%" }}>
+              <Box className={classes.listBox} style={{ width: "80%" }}>
                 <Box p={0} m={1} style={{width: "90px"}}>
                   State
                 </Box>
@@ -102,7 +105,7 @@ const BikeListPage = () => {
                 style={{ margin: "3px", lineHeight: 1}}
                 onClick={handleOpenCreateBike}
               >
-                NEW BIKE
+                new bike
               </Button>
               <Dialog
                 disableBackdropClick

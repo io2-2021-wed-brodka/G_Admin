@@ -7,6 +7,11 @@ import {
 import bicycleWallpaper from '../Resources/bikeWP.jpg';
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    pageTitle: {
+        alignSelf: "center", 
+        color: "white", 
+        textShadow: "0px 0px 5px black",
+    },
     formContainer: {
       backgroundColor: "#aec6cf",
       opacity: "0.95",

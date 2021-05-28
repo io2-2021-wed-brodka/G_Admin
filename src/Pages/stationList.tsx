@@ -36,32 +36,26 @@ import { themeWarning, useStyles } from "../Styles/style";
 
 function StationListPage() {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(false);
+  const [openNewStationDialog, setOpenNewStationDialog] = useState<boolean>(false);
   const [openError, setOpenError] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [newStationName, setName] = React.useState<string>("Generic Location");
   const [stationList, setStationList] = React.useState<Station[]>([]);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [newStationBikeLimit, setNewStationBikeLimit] = React.useState(10);
-  const [openDeleteConfirmPopUp, setDeleteConfirmPopUp] = useState<boolean>(
-    false
-  );
-  const [openBlockConfirmPopUp, setBlockConfirmPopUp] = useState<boolean>(
-    false
-  );
-  const [openUnblockConfirmPopUp, setUnblockConfirmPopUp] = useState<boolean>(
-    false
-  );
+  const [openedDeleteStationDialogIndex, setOpenedDeleteStationDialogIndex] = useState<number>(-1);
+  const [openedBlockStationDialogIndex, setOpenedBlockStationDialogIndex] = useState<number>(-1);
+  const [openedUnblockStationDialogIndex, setOpenedUnblockStationDialogIndex] = useState<number>(-1);
   const [getStationTrigger, setStationTrigger] = React.useState(true);
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleOpenNewStationDialog = () => {
+    setOpenNewStationDialog(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseNewStationDialog = () => {
+    setOpenNewStationDialog(false);
   };
   const handleAddStation = async () => {
     postStation(newStationName, newStationBikeLimit).then((r) => {});
-    setOpen(false);
+    setOpenNewStationDialog(false);
     setStationTrigger(!getStationTrigger);
   };
   const handleChangeName = (location: string) => {
@@ -77,35 +71,36 @@ function StationListPage() {
     }
     setNewStationBikeLimit(bikeLimit);
   };
-  const blockClicked = async () => {
+  const handleBlockStation = async () => {
     await blockStation(stationList[selectedIndex].id.toString());
-    setBlockConfirmPopUp(false);
+    setOpenedBlockStationDialogIndex(-1);
     setStationTrigger(!getStationTrigger);
   };
-  const unblockedClicked = async () => {
+  const handleUnblockStation = async () => {
     await unblockStation(stationList[selectedIndex].id);
-    setUnblockConfirmPopUp(false);
+    setOpenedUnblockStationDialogIndex(-1);
+    setStationTrigger(!getStationTrigger);
   };
-  const deleteClicked = async () => {
+  const handleDeleteStation = async () => {
     await deleteBikeStation(stationList[selectedIndex].id.toString())
       .then((response) => {
-        setDeleteConfirmPopUp(false);
+        setOpenedDeleteStationDialogIndex(-1);
         setStationTrigger(!getStationTrigger);
       })
       .catch((error) => {
-        setDeleteConfirmPopUp(false);
+        setOpenedDeleteStationDialogIndex(-1);
         setErrorMsg(error.response.data.message);
         setOpenError(true);
       });
   };
-  const handleCloseBlockConfirmPopUp = () => {
-    setBlockConfirmPopUp(false);
+  const handleCloseBlockStationDialog = () => {
+    setOpenedBlockStationDialogIndex(-1);
   };
-  const handleCloseUnblockConfirmPopUp = () => {
-    setUnblockConfirmPopUp(false);
+  const handleCloseUnblockDialog = () => {
+    setOpenedUnblockStationDialogIndex(-1);
   };
-  const handleCloseDeleteConfirmPopUp = () => {
-    setDeleteConfirmPopUp(false);
+  const handleCloseDeleteStationDialog = () => {
+    setOpenedDeleteStationDialogIndex(-1);
   };
   const handleListItemClick = (index: number) => {
     setSelectedIndex(index);
@@ -116,6 +111,15 @@ function StationListPage() {
   const [viewBlockedStations, setViewBlockedStations] = useState<boolean>(
     false
   );
+  const isThisDeleteStationDialogOpened = (dialogIndex: number) => {
+    return openedDeleteStationDialogIndex === dialogIndex ? true : false;
+  }
+  const isThisBlockStationDialogOpened = (dialogIndex: number) => {
+    return openedBlockStationDialogIndex === dialogIndex ? true : false;
+  }
+  const isThisUnblockStationDialogOpened = (dialogIndex: number) => {
+    return openedUnblockStationDialogIndex === dialogIndex ? true : false;
+  }
   useEffect(() => {
     !viewBlockedStations
       ? getActiveStations().then((r) => {
@@ -135,30 +139,41 @@ function StationListPage() {
   }, [getStationTrigger, viewBlockedStations]);
   return (
     <div className={classes.generalContainer}>
+      <h1 className={classes.pageTitle}>
+          STATIONS
+      </h1>
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
               <Box className={classes.listBox} style={{ width: "50%" }}>
-                <Box p={0} m={1} style={{ marginRight: "30px" }}>
+                <Box p={0} m={1} style={{ width: "90px" }}>
                   State
                 </Box>
-                <Box p={0} m={1} style={{ marginRight: "30px" }}>
+                <Box p={0} m={1} style={{ width: "90px" }}>
                   Bikes Count
                 </Box>
                 <Box p={0} m={1}>
                   Name
                 </Box>
               </Box>
+              <Box style={{marginRight: "40px" }}>
+                  <Switch
+                    checked={viewBlockedStations}
+                    onChange={() => setViewBlockedStations(!viewBlockedStations)}
+                    edge="start"
+                  />
+                  Display blocked stations
+              </Box>
               <Button
                 startIcon={<AddIcon />}
                 variant="contained"
-                style={{ margin: "5px", marginRight: "40px" }}
-                onClick={handleClickOpen}
+                style={{ margin: "5px"}}
+                onClick={handleOpenNewStationDialog}
               >
                 new station
               </Button>
-              <Dialog disableBackdropClick open={open} onClose={handleClose}>
+              <Dialog disableBackdropClick open={openNewStationDialog}>
                 <DialogTitle>New station form</DialogTitle>
                 <DialogContent>
                   <form className={classes.container}>
@@ -187,7 +202,7 @@ function StationListPage() {
                   <Button onClick={handleAddStation} color="primary">
                     OK
                   </Button>
-                  <Button onClick={handleClose} color="primary">
+                  <Button onClick={handleCloseNewStationDialog} color="primary">
                     Cancel
                   </Button>
                 </DialogActions>
@@ -195,7 +210,7 @@ function StationListPage() {
               <Dialog
                 disableBackdropClick
                 open={openError}
-                onClose={handleClose}
+                onClose={handleCloseNewStationDialog}
               >
                 <DialogTitle>Error</DialogTitle>
                 <DialogContent>
@@ -207,12 +222,7 @@ function StationListPage() {
                   </Button>
                 </DialogActions>
               </Dialog>
-              <Switch
-                checked={viewBlockedStations}
-                onChange={() => setViewBlockedStations(!viewBlockedStations)}
-                edge="start"
-              />
-              Display blocked stations
+              
             </ListSubheader>
             {stationList.map((station, index) => {
               return (
@@ -222,10 +232,10 @@ function StationListPage() {
                     onClick={() => handleListItemClick(index)}
                   >
                     <Box className={classes.listBox} style={{ width: "90%" }}>
-                      <Box p={0} m={1}>
+                      <Box p={0} m={1} style={{ width: "90px" }}>
                         <ListItemText primary={station.state} />
                       </Box>
-                      <Box p={0} m={1} style={{ marginRight: "100px" }}>
+                      <Box p={0} m={1} style={{ width: "90px" }}>
                         <ListItemText primary={station.activeBikesCount} />
                       </Box>
                       <Box p={0} m={1}>
@@ -237,7 +247,7 @@ function StationListPage() {
                         <Button
                           variant="contained"
                           className={classes.blockButton}
-                          onClick={() => setBlockConfirmPopUp(true)}
+                          onClick={() => setOpenedBlockStationDialogIndex(index)}
                           startIcon={<ErrorOutlineIcon />}
                         >
                           {" "}
@@ -248,7 +258,7 @@ function StationListPage() {
                           <Button
                             variant="contained"
                             className={classes.blockButton}
-                            onClick={() => setUnblockConfirmPopUp(true)}
+                            onClick={() => setOpenedUnblockStationDialogIndex(index)}
                             startIcon={<ErrorOutlineIcon />}
                           >
                             {" "}
@@ -258,7 +268,7 @@ function StationListPage() {
                             <Button
                               variant="contained"
                               className={classes.deleteButton}
-                              onClick={() => setDeleteConfirmPopUp(true)}
+                              onClick={() => setOpenedDeleteStationDialogIndex(index)}
                               startIcon={<DeleteOutlineSharpIcon />}
                             >
                               {" "}
@@ -268,9 +278,8 @@ function StationListPage() {
                         </React.Fragment>
                       )}
                       <Dialog
-                        open={openBlockConfirmPopUp}
+                        open={isThisBlockStationDialogOpened(index)}
                         keepMounted
-                        onClose={handleCloseBlockConfirmPopUp}
                       >
                         <DialogTitle>{"Block this station?"}</DialogTitle>
                         <DialogContent>
@@ -280,20 +289,19 @@ function StationListPage() {
                         </DialogContent>
                         <DialogActions>
                           <Button
-                            onClick={handleCloseBlockConfirmPopUp}
+                            onClick={handleCloseBlockStationDialog}
                             color="primary"
                           >
                             No
                           </Button>
-                          <Button onClick={blockClicked} color="primary">
+                          <Button onClick={handleBlockStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
                       </Dialog>
                       <Dialog
-                        open={openDeleteConfirmPopUp}
+                        open={isThisDeleteStationDialogOpened(index)}
                         keepMounted
-                        onClose={handleCloseDeleteConfirmPopUp}
                       >
                         <DialogTitle>{"Delete this station?"}</DialogTitle>
                         <DialogContent>
@@ -303,20 +311,19 @@ function StationListPage() {
                         </DialogContent>
                         <DialogActions>
                           <Button
-                            onClick={handleCloseDeleteConfirmPopUp}
+                            onClick={handleCloseDeleteStationDialog}
                             color="primary"
                           >
                             No
                           </Button>
-                          <Button onClick={deleteClicked} color="primary">
+                          <Button onClick={handleDeleteStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
                       </Dialog>
                       <Dialog
-                        open={openUnblockConfirmPopUp}
+                        open={isThisUnblockStationDialogOpened(index)}
                         keepMounted
-                        onClose={handleCloseUnblockConfirmPopUp}
                       >
                         <DialogTitle>Unblock this station?</DialogTitle>
                         <DialogContent>
@@ -326,12 +333,12 @@ function StationListPage() {
                         </DialogContent>
                         <DialogActions>
                           <Button
-                            onClick={handleCloseUnblockConfirmPopUp}
+                            onClick={handleCloseUnblockDialog}
                             color="primary"
                           >
                             No
                           </Button>
-                          <Button onClick={unblockedClicked} color="primary">
+                          <Button onClick={handleUnblockStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
