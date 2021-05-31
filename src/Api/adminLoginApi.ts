@@ -14,6 +14,7 @@ const axiosHandleLoginResponse = async <T>(
     // frontend validation (hack) so that you can't login to admin with user/tech credentials
     if (response.data.role !== "admin") {
       alert("Bad credentials");
+      window.location.href = "/login"; // refresh and redirect to main page
     }
     else {
       sessionStorage.setItem("token", response.data.token);
