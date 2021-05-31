@@ -27,8 +27,8 @@ import { themeWarning, useStyles } from "../Styles/style";
 
 const BikeListPage = () => {
   const classes = useStyles();
-  const [openDeleteBike, setOpenDeleteBike] = useState<boolean>(false);
-  const [openCreateBike, setOpenCreateBike] = useState<boolean>(false);
+  const [openedDeleteBikeDialogIndex, setOpenedDeleteBikeDialogIndex] = useState<number>(-1);
+  const [openCreateBikeDialog, setOpenCreateBikeDialog] = useState<boolean>(false);
   const [chosenStationId, setChosenStationId] = React.useState<string>("");
   const [bikeList, setBikeList] = React.useState<Bike[]>([]);
   const [stationList, setStationList] = React.useState<Station[]>([]);
@@ -43,25 +43,28 @@ const BikeListPage = () => {
     setChosenStationId(String(event.target.value));
   };
   const handleCloseDeleteBike = () => {
-    setOpenDeleteBike(false);
+    setOpenedDeleteBikeDialogIndex(-1);
   };
-  const deleteBikeClicked = async () => {
+  const handleDeleteBike = async () => {
     await deleteBike(bikeList[selectedIndex].id);
-    setOpenDeleteBike(false);
+    setOpenedDeleteBikeDialogIndex(-1);
     setBikesTrigger(!getBikesTrigger);
   };
   const handleOpenCreateBike = () => {
     setChosenStationId(stationList[0].id);
-    setOpenCreateBike(true);
+    setOpenCreateBikeDialog(true);
   };
 
   const handleCloseCreateBike = () => {
-    setOpenCreateBike(false);
+    setOpenCreateBikeDialog(false);
   };
   const handleCreateBike = async () => {
     postBike(chosenStationId).then((r) => {});
-    setOpenCreateBike(false);
+    setOpenCreateBikeDialog(false);
     setBikesTrigger(!getBikesTrigger);
+  };
+  const isThisDeleteBikeDialogOpened = (dialogIndex: number) => {
+    return openedDeleteBikeDialogIndex === dialogIndex ? true : false
   };
   useEffect(() => {
     getBikes().then((r) => {
@@ -81,30 +84,32 @@ const BikeListPage = () => {
   }, [getBikesTrigger]);
   return (
     <div className={classes.generalContainer}>
+      <h1 className={classes.pageTitle}>
+          BIKES
+      </h1>
       <List className={classes.ListStyle} subheader={<li />}>
         <li className={classes.listSection}>
           <ul className={classes.ul}>
             <ListSubheader className={classes.listSubheaderStyle}>
-              <Box className={classes.listBox} style={{ width: "90%" }}>
-                <Box p={1} m={1}>
+              <Box className={classes.listBox} style={{ width: "80%" }}>
+                <Box p={0} m={1} style={{width: "90px"}}>
                   State
                 </Box>
-                <Box p={1} m={1} style={{ marginLeft: "6%" }}>
+                <Box p={0} m={1}>
                   Station
                 </Box>
               </Box>
               <Button
                 startIcon={<AddIcon />}
                 variant="contained"
-                style={{ margin: "5px" }}
+                style={{ margin: "3px", lineHeight: 1}}
                 onClick={handleOpenCreateBike}
               >
-                NEW BIKE
+                new bike
               </Button>
               <Dialog
                 disableBackdropClick
-                open={openCreateBike}
-                onClose={handleCloseCreateBike}
+                open={openCreateBikeDialog}
               >
                 <DialogTitle>Fill the form</DialogTitle>
                 <DialogContent>
@@ -141,23 +146,14 @@ const BikeListPage = () => {
             {bikeList.map((bike, index) => {
               return (
                 <li key={bike.id}>
-                  <ListItem
-                    style={{
-                      backgroundColor: "#69696e",
-                      color: "white",
-                      display: "flex",
-                      height: "50px",
-                      marginBottom: "5px",
-                      marginTop: "5px",
-                      borderRadius: "15px",
-                    }}
+                  <ListItem className={classes.listItemStyle}
                     onClick={() => handleBikeListItemClick(index)}
                   >
                     <Box className={classes.listBox} style={{ width: "90%" }}>
-                      <Box p={2} m={1}>
+                      <Box p={0} m={1} style={{width: "90px"}}>
                         <ListItemText primary={bike.status} />
                       </Box>
-                      <Box p={2} m={1}>
+                      <Box p={0} m={1}>
                         <ListItemText
                           primary={
                             bike.station == null ? "" : bike.station.name
@@ -170,15 +166,14 @@ const BikeListPage = () => {
                         className={classes.deleteButton}
                         id="delete_bike_button"
                         startIcon={<DeleteOutlineSharpIcon />}
-                        onClick={() => setOpenDeleteBike(true)}
+                        onClick={() => setOpenedDeleteBikeDialogIndex(index)}
                       >
                         {" "}
                         DELETE
                       </Button>
                       <Dialog
-                        open={openDeleteBike}
+                        open={isThisDeleteBikeDialogOpened(index)}
                         keepMounted
-                        onClose={handleCloseDeleteBike}
                       >
                         <DialogTitle id="alert-dialog-slide-title">
                           {"Delete this bike?"}
@@ -195,7 +190,7 @@ const BikeListPage = () => {
                           >
                             No
                           </Button>
-                          <Button onClick={deleteBikeClicked} color="primary">
+                          <Button onClick={handleDeleteBike} color="primary">
                             Yes
                           </Button>
                         </DialogActions>

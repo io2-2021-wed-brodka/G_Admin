@@ -37,15 +37,13 @@ export const getActiveUsers =  async (): Promise<Users> => {
   const blockedUsers: User[] = await getBlockedUsers().then(r => r.data?.users || []);
   return {
     users: allUsers.filter((user) => {
-      for (let i = 0; i < blockedUsers.length; i++) {
-        if (user.id === blockedUsers[i].id) {
+      for (let i = 0; i < blockedUsers.length; i++)
+        if (user.id === blockedUsers[i].id)
           return false;
-        }
-      }
       return true;
     })
   }
-}
+};
 
 export const unblockUser = async (userID: string) => {
   const block_user_id_url = `${block_user_url}${userID}/`;
