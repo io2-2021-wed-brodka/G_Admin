@@ -7,14 +7,14 @@ import {
 import { Bike } from "./bikeApi";
 import axios from "axios";
 
-export enum StationState {
-  Working,
+export enum StationStatus {
+  Active,
   Blocked,
 }
 
 export interface Station {
   id: string;
-  state: StationState;
+  status: StationStatus;
   name: string;
   activeBikesCount: number;
   bikes: Bike[];
@@ -48,14 +48,14 @@ export const blockStation = async (stationID: string) => {
 };
 
 export const unblockStation = async (stationID: string) => {
-  const block_station_id_url = `${block_station_url}${stationID}/`;
+  const block_station_id_url = `${block_station_url}/${stationID}/`;
   axios
     .delete(block_station_id_url, getRequestConfig())
     .then((r) => axiosHandleResponse(r));
 };
 
 export const deleteBikeStation = async (stationID: string) => {
-  let url = `${station_url}${stationID}/`;
+  let url = `${station_url}/${stationID}`;
   return axios.delete(url, getRequestConfig());
 };
 
