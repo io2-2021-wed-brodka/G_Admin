@@ -46,7 +46,7 @@ export const getActiveUsers =  async (): Promise<Users> => {
 };
 
 export const unblockUser = async (userID: string) => {
-  const block_user_id_url = `${block_user_url}${userID}/`;
+  const block_user_id_url = `${block_user_url}${userID}`;
   axios
     .delete(block_user_id_url, getRequestConfig())
     .then((r) => axiosHandleResponse(r));

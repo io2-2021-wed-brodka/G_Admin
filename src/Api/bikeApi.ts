@@ -37,7 +37,7 @@ export const getBikes = async (): Promise<IApiResponse<Bikes>> => {
 };
 
 export const deleteBike = async (bikeID: string) => {
-  let delete_url = `${bikes_url}${bikeID}/`;
+  let delete_url = `${bikes_url}${bikeID}`;
   axios
     .delete(delete_url, getRequestConfig())
     .then((r) => axiosHandleResponse(r))
