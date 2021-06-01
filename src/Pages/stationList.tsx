@@ -233,7 +233,7 @@ function StationListPage() {
                   >
                     <Box className={classes.listBox} style={{ width: "90%" }}>
                       <Box p={0} m={1} style={{ width: "90px" }}>
-                        <ListItemText primary={station.state} />
+                        <ListItemText primary={station.status} />
                       </Box>
                       <Box p={0} m={1} style={{ width: "90px" }}>
                         <ListItemText primary={station.activeBikesCount} />

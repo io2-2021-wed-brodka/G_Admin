@@ -35,11 +35,11 @@ export const addTech = async (name: string, password: string) => {
 };
 
 export const getTech = async (techID: string) => {
-  let url = `${techs_url}${techID}/`;
+  let url = `${techs_url}/${techID}`;
   return axios.get(url, getRequestConfig());
 };
 
 export const deleteTech = async (techID: string) => {
-  let url = `${techs_url}${techID}/`;
+  let url = `${techs_url}/${techID}`;
   return axios.delete(url, getRequestConfig());
 };
