@@ -89,6 +89,7 @@ export const TopBar: React.FC = () => {
                   Bicycles{" "}
                 </Button>
                 <Button
+                  id="topbar-station-button-confirm"
                   color="inherit"
                   startIcon={<LocalParkingIcon />}
                   className={classes.title}
@@ -99,6 +100,7 @@ export const TopBar: React.FC = () => {
                   Stations{" "}
                 </Button>
                 <Button
+                  id="topbar-rented-button-confirm"
                   color="inherit"
                   startIcon={<PeopleIcon />}
                   className={classes.title}
@@ -111,6 +113,7 @@ export const TopBar: React.FC = () => {
               </div>
               <div>
                 <Button
+                  id="logout-button-confirm"
                   color="inherit"
                   startIcon={<ExitToAppIcon />}
                   className={classes.title}
