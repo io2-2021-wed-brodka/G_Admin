@@ -34,6 +34,7 @@ const BikeListPage = () => {
   const [stationList, setStationList] = React.useState<Station[]>([]);
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
   const [getBikesTrigger, setBikesTrigger] = React.useState(true);
+  const [noStations, setNoStations] = React.useState(true);
   const handleBikeListItemClick = (index: number) => {
     setSelectedIndex(index);
   };
@@ -80,6 +81,8 @@ const BikeListPage = () => {
         return;
       }
       setStationList(r.data?.stations || []);
+
+      setNoStations(r.data?.stations.length === 0); // czy lista stacji pusta
     });
   }, [getBikesTrigger]);
   return (
@@ -104,6 +107,7 @@ const BikeListPage = () => {
                 variant="contained"
                 style={{ margin: "3px", lineHeight: 1}}
                 onClick={handleOpenCreateBike}
+                disabled={noStations}
               >
                 new bike
               </Button>
