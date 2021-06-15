@@ -159,6 +159,7 @@ function StationListPage() {
               </Box>
               <Box style={{marginRight: "40px" }}>
                   <Switch
+                    id="stations-switch-blocked"
                     checked={viewBlockedStations}
                     onChange={() => setViewBlockedStations(!viewBlockedStations)}
                     edge="start"
@@ -167,6 +168,7 @@ function StationListPage() {
               </Box>
               <Button
                 startIcon={<AddIcon />}
+                id="stations-new"
                 variant="contained"
                 style={{ margin: "5px"}}
                 onClick={handleOpenNewStationDialog}
@@ -180,12 +182,14 @@ function StationListPage() {
                     <FormControl className={classes.formControl}>
                       <InputLabel htmlFor="demo-dialog-native">Name</InputLabel>
                       <Input
+                        id="stations-add-name"
                         onChange={(event: any) =>
                           handleChangeName(event.target.value)
                         }
                       />
                       Bike limit:
                       <input
+                        id="stations-add-limit"
                         type="number"
                         min="1"
                         max="100"
@@ -217,7 +221,7 @@ function StationListPage() {
                   <p>{errorMsg}</p>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleCloseError} color="primary">
+                  <Button id="stations-add-confirm" onClick={handleCloseError} color="primary">
                     OK
                   </Button>
                 </DialogActions>
@@ -246,6 +250,7 @@ function StationListPage() {
                       {!viewBlockedStations ? (
                         <Button
                           variant="contained"
+                          id={`station-block-confirm-${index}`}
                           className={classes.blockButton}
                           onClick={() => setOpenedBlockStationDialogIndex(index)}
                           startIcon={<ErrorOutlineIcon />}
@@ -257,6 +262,7 @@ function StationListPage() {
                         <React.Fragment>
                           <Button
                             variant="contained"
+                            id={`station-unblock-confirm-${index}`}
                             className={classes.blockButton}
                             onClick={() => setOpenedUnblockStationDialogIndex(index)}
                             startIcon={<ErrorOutlineIcon />}
@@ -266,6 +272,7 @@ function StationListPage() {
                           </Button>
                           {station.activeBikesCount != 0 ? null : (
                             <Button
+                              id={`station-remove-${index}`}
                               variant="contained"
                               className={classes.deleteButton}
                               onClick={() => setOpenedDeleteStationDialogIndex(index)}
@@ -294,7 +301,8 @@ function StationListPage() {
                           >
                             No
                           </Button>
-                          <Button onClick={handleBlockStation} color="primary">
+                          <Button
+                            id={`station-block-confirm`} onClick={handleBlockStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
@@ -316,7 +324,7 @@ function StationListPage() {
                           >
                             No
                           </Button>
-                          <Button onClick={handleDeleteStation} color="primary">
+                          <Button id={`station-remove-confirm`} onClick={handleDeleteStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
@@ -338,7 +346,7 @@ function StationListPage() {
                           >
                             No
                           </Button>
-                          <Button onClick={handleUnblockStation} color="primary">
+                          <Button id={`station-unblock-confirm`} onClick={handleUnblockStation} color="primary">
                             Yes
                           </Button>
                         </DialogActions>
