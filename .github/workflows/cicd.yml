@@ -22,6 +22,8 @@ jobs:
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       # Step 2
       - name: Build React App
+        env:
+          REACT_APP_STAGE: 'prod'
         run: npm install && CI=false npm run build
       - name: Deploy app build to S3 bucket
         run: aws s3 sync ./build/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
