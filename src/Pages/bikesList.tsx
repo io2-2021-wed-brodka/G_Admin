@@ -105,6 +105,7 @@ const BikeListPage = () => {
               <Button
                 startIcon={<AddIcon />}
                 variant="contained"
+                id="bikes-new"
                 style={{ margin: "3px", lineHeight: 1}}
                 onClick={handleOpenCreateBike}
                 disabled={noStations}
@@ -124,6 +125,7 @@ const BikeListPage = () => {
                       </InputLabel>
                       <Select
                         native
+                        id="bikes-add-station"
                         value={chosenStationId}
                         onChange={handleChangeChosenStation}
                         input={<Input />}

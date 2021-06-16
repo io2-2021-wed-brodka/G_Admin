@@ -138,6 +138,7 @@ export const UserListPage = () => {
               </Box>
               <Box>
                 <Switch
+                  id={`user-switch-blocked`}
                   checked={viewBlockedUsers}
                   onChange={() => setViewBlockedUsers(!viewBlockedUsers)}
                   edge="start"
@@ -159,6 +160,7 @@ export const UserListPage = () => {
                     </Box>
                     {!viewBlockedUsers ? (
                       <Button
+                        id={`user-block-confirm-${index}`}
                         className={classes.blockButton}
                         startIcon={<ErrorOutlineIcon />}
                         onClick={() => setOpenedBlockUserDialogIndex(index)}
@@ -167,6 +169,7 @@ export const UserListPage = () => {
                       </Button>
                     ) : (
                       <Button
+                        id={`user-unblock-confirm-${index}`}
                         className={classes.blockButton}
                         startIcon={<ErrorOutlineIcon />}
                         onClick={() => setOpenedUnblockUserDialogIndex(index)}
@@ -249,6 +252,7 @@ export const UserListPage = () => {
                 </Box>
               </Box>
               <Button
+                id={`users-add-tech`}
                 startIcon={<AddIcon />}
                 variant="contained"
                 style={{ margin: "5px" }}
@@ -269,12 +273,14 @@ export const UserListPage = () => {
                     <FormControl className={classes.formControl}>
                       Name
                       <Input
+                        id={`users-add-tech-name`}
                         onChange={(event: any) =>
                           handleChangeNameTech(event.target.value)
                         }
                       />
                       Password
                       <Input
+                        id={`users-add-tech-password`}
                         onChange={(event: any) =>
                           handleChangePasswordTech(event.target.value)
                         }
@@ -283,7 +289,7 @@ export const UserListPage = () => {
                   </form>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleAddTech} color="primary">
+                  <Button id={`users-add-tech-confirm`} onClick={handleAddTech} color="primary">
                     OK
                   </Button>
                   <Button
@@ -315,6 +321,7 @@ export const UserListPage = () => {
                       </Box>
                     </Box>
                     <Button
+                      id={`users-remove-tech-${index}`}
                       className={classes.deleteButton}
                       startIcon={<ErrorOutlineIcon />}
                       onClick={() => setDeleteConfirmPopUp(index)}
@@ -339,7 +346,7 @@ export const UserListPage = () => {
                         >
                           No
                         </Button>
-                        <Button onClick={handleDeleteTech} color="primary">
+                        <Button id={`users-remove-tech-confirm`} onClick={handleDeleteTech} color="primary">
                           Yes
                         </Button>
                       </DialogActions>
